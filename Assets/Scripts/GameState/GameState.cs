@@ -1,5 +1,12 @@
 namespace GameState
 {
+    public enum StateType
+    {
+        Idle,
+        Selecting,
+        Progressing
+    }
+    
     public abstract class GameState
     {
         protected GameContext _context;
@@ -7,6 +14,8 @@ namespace GameState
         {
             _context = context;
         }
+
+        public abstract StateType GetStateType();
         
         public abstract void Enter();
 

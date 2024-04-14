@@ -9,7 +9,7 @@ namespace GameState
         public GameState CurrentState => _gameState;
 
         [ContextMenu("開始遊戲")]
-        void StartGame()
+        public void StartGame()
         {
             SetGameState(new IdleState());
         }
@@ -24,7 +24,7 @@ namespace GameState
             newState.Enter();
         }
 
-        void Update()
+        public void Update()
         {
             _gameState.Update();
         }

@@ -2,9 +2,11 @@ namespace GameState
 {
     public class IdleState : GameState
     {
+        public override StateType GetStateType() => StateType.Idle;
+
         public override void Enter()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public override void Exit()

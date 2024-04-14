@@ -2,7 +2,7 @@ namespace GameState
 {
     public class ProgressingState : GameState
     {
-        
+        public override StateType GetStateType() => StateType.Progressing;
 
         public override void Enter()
         {

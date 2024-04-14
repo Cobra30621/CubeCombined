@@ -2,6 +2,8 @@ namespace GameState
 {
     public class SelectingState : GameState
     {
+        public override StateType GetStateType() => StateType.Selecting;
+
         public override void Enter()
         {
             throw new System.NotImplementedException();
