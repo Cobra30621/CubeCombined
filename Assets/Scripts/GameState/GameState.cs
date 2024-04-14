@@ -1,3 +1,5 @@
+using Cube;
+
 namespace GameState
 {
     public enum StateType
@@ -9,18 +11,16 @@ namespace GameState
     
     public abstract class GameState
     {
-        protected GameContext _context;
+        protected GameContext _gameContext;
+        protected ICubeManager CubeManager => _gameContext.CubeManager;
+        
         public void Init(GameContext context)
         {
-            _context = context;
+            _gameContext = context;
         }
 
         public abstract StateType GetStateType();
         
-        public abstract void Enter();
-
-        public abstract void Exit();
-
         public abstract void Update();
     }
 }

@@ -1,22 +1,36 @@
+using Input;
+using UnityEngine;
+
 namespace GameState
 {
     public class SelectingState : GameState
     {
         public override StateType GetStateType() => StateType.Selecting;
-
-        public override void Enter()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Exit()
-        {
-            throw new System.NotImplementedException();
-        }
-
+        private IInputSystem InputSystem => InputSetting.InputSystem;
+        
         public override void Update()
         {
-            throw new System.NotImplementedException();
+            int row = InputSystem.GetRow();
+            // _gameContext.UpdateSelectingRow(row);
+
+            if (InputSystem.IsRelease())
+            {
+                Debug.Log("IsRelease");
+                Release(row);
+            }
+        }
+
+        private void Release(int row)
+        {
+            Debug.Log($"{CubeManager.CanRelease(row)}");
+            if (CubeManager.CanRelease(row))
+            {
+                _gameContext.SetGameState(new ProgressingState());
+            }
+            else
+            {
+                _gameContext.SetGameState(new IdleState());
+            }
         }
     }
 }

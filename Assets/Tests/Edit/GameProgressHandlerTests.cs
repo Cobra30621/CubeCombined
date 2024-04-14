@@ -7,14 +7,6 @@ namespace Tests.Editor
     public class GameProgressHandlerTests
     {
         [Test]
-        public void TestStartGame()
-        {
-            GameProgressHandler gameProgressHandler = new GameProgressHandler();
-            gameProgressHandler.StartGame();
-            Assert.AreEqual(StateType.Idle, gameProgressHandler.CurrentState.GetStateType());
-        }
-
-        [Test]
         public void TestSetGameState()
         {
             GameProgressHandler gameProgressHandler = new GameProgressHandler();

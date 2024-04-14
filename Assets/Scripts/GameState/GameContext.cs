@@ -1,9 +1,15 @@
+using Cube;
+
 namespace GameState
 {
     public interface GameContext
     {
         void SetGameState(GameState newState);
         
-        GameState CurrentState { get; } 
+        StateType CurrentState { get; }
+        ICubeManager CubeManager { get; set; }
+        CubeUI CubeUI { get; }
+
+        void UpdateSelectingRow(int row);
     }
 }
