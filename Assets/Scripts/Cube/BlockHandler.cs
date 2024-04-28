@@ -6,6 +6,8 @@ public class BlockHandler
     private List<Map> mergedMaps;
     private Map gameMap;
 
+    public Map GameMap => gameMap;
+    
     public BlockHandler(int numRows, int numCols)
     {
         mergedMaps = new List<Map>();
@@ -26,13 +28,17 @@ public class BlockHandler
         gameMap.PrintMap();
     }
 
-    public void AddBlock(int column, int value)
+    public void AddBlock(int column, int value, bool printMerge = false)
     {
         gameMap.AddBlock(column, value);
         mergedMaps.Clear();
         mergedMaps.Add(new Map(gameMap)); // 新增一個 Map 的複本到 mergedMaps
         CheckAndMergeBlocks(gameMap);
 
+        if (printMerge)
+        {
+            PrintMergedMaps();
+        }
     }
 
     public List<Map> GetMergedMaps()
@@ -53,51 +59,97 @@ public class BlockHandler
             {
                 for (int j = 0; j < map.cols; j++)
                 {
-                    if (grid[i, j] != 0)
+                    if (grid[i, j] != 0 && !merged)
                     {
-                        // 向上檢查合併
-                        if (i > 0 && grid[i, j] == grid[i - 1, j])
-                        {
-                            grid[i, j] += 1;
-                            grid[i - 1, j] = 0;
-                            merged = true;
-                        }
-                        // 向下檢查合併
-                        else if (i < map.rows - 1 && grid[i, j] == grid[i + 1, j])
-                        {
-                            grid[i, j] += 1;
-                            grid[i + 1, j] = 0;
-                            merged = true;
-                        }
-                        // 向左檢查合併
-                        else if (j > 0 && grid[i, j] == grid[i, j - 1])
-                        {
-                            grid[i, j] += 1;
-                            grid[i, j - 1] = 0;
-                            merged = true;
-                        }
-                        // 向右檢查合併
-                        else if (j < map.cols - 1 && grid[i, j] == grid[i, j + 1])
-                        {
-                            grid[i, j] += 1;
-                            grid[i, j + 1] = 0;
-                            merged = true;
-                        }
+                        merged = CheckAndMerge(grid, i, j);
                     }
                 }
             }
 
             if (merged)
             {
-                mergedMaps.Add(new Map(map.rows, map.cols)
-                {
-                    grid = grid // 更新地圖狀態
-                });
-            
                 map.grid = grid;
+                mergedMaps.Add(new Map(map));
+
+                var shiftGridUp = ShiftGridUp(grid);
+                if (shiftGridUp)
+                {
+                    mergedMaps.Add(new Map(map));
+                }
             }
 
         } while (merged);
     }
+
+    private bool CheckAndMerge(int[,] grid, int row, int col)
+    {
+        bool merged = false;
+
+        if (row > 0 && grid[row, col] == grid[row - 1, col])
+        {
+            grid[row, col] += 1;
+            grid[row - 1, col] = 0;
+            merged = true;
+        }
+        else if (row < grid.GetLength(0) - 1 && grid[row, col] == grid[row + 1, col])
+        {
+            grid[row, col] += 1;
+            grid[row + 1, col] = 0;
+            merged = true;
+        }
+        else if (col > 0 && grid[row, col] == grid[row, col - 1])
+        {
+            grid[row, col] += 1;
+            grid[row, col - 1] = 0;
+            merged = true;
+        }
+        else if (col < grid.GetLength(1) - 1 && grid[row, col] == grid[row, col + 1])
+        {
+            grid[row, col] += 1;
+            grid[row, col + 1] = 0;
+            merged = true;
+        }
+
+        return merged;
+    }
+    
+    private bool ShiftGridUp(int[,] grid)
+    {
+        bool shifted = false;
+        bool[] hasNonZeroBelow = new bool[grid.GetLength(1)];
+
+        for (int col = 0; col < grid.GetLength(1); col++)
+        {
+            for (int row = grid.GetLength(0) - 1; row >= 0; row--)
+            {
+                if (grid[row, col] != 0)
+                {
+                    hasNonZeroBelow[col] = true;
+                }
+                else if (hasNonZeroBelow[col])
+                {
+                    int nonZeroRow = row + 1;
+                    while (nonZeroRow < grid.GetLength(0) && grid[nonZeroRow, col] == 0)
+                    {
+                        nonZeroRow++;
+                    }
+
+                    if (nonZeroRow < grid.GetLength(0))
+                    {
+                        grid[row, col] = grid[nonZeroRow, col];
+                        grid[nonZeroRow, col] = 0;
+                        shifted = true;
+                        hasNonZeroBelow[col] = true;
+                    }
+                }
+            }
+        }
+
+        return shifted;
+    }
+
+
+
+
 
 }

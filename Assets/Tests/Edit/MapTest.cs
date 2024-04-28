@@ -7,39 +7,21 @@ namespace Tests.Edit
     public class MapTest
     {
         [Test]
-        public void Test()
-        {
-            var gameMap = new Map(3, 3);
-            gameMap.PrintMap();
-
-            gameMap.AddBlock(0, 1);
-            gameMap.PrintMap();
-
-            gameMap.AddBlock(0, 1);
-            gameMap.PrintMap();
-
-            gameMap.AddBlock(0, 1);
-            gameMap.PrintMap();
-        }
-
-        [Test]
         public void TestBlockHandler()
         {
             // Arrange
             BlockHandler blockHandler = new BlockHandler(3, 3);
 
             // Act
-            blockHandler.AddBlock(0, 1);
-            blockHandler.PrintMergedMaps();
-            blockHandler.AddBlock(1, 2);
-            blockHandler.PrintMergedMaps();
-            blockHandler.AddBlock(2, 3);
-            blockHandler.PrintMergedMaps();
-            blockHandler.AddBlock(1, 2); // 合併方塊
+            blockHandler.AddBlock(0, 1, true);
+            blockHandler.AddBlock(1, 2, true);
+            blockHandler.AddBlock(1, 3, true); // 合併方塊
+            blockHandler.AddBlock(1, 2, true); // 合併方塊
+            blockHandler.AddBlock(1, 2, true); // 合併方塊
+            blockHandler.AddBlock(1, 2, true); // 合併方塊
             blockHandler.PrintMergedMaps();
 
-            List<Map> mergedMaps = blockHandler.GetMergedMaps();
-
+            
         }
         
         [Test]
@@ -49,17 +31,40 @@ namespace Tests.Edit
             BlockHandler blockHandler = new BlockHandler(3, 3);
 
             // Act
-            blockHandler.AddBlock(0, 1);
-            blockHandler.PrintMergedMaps();
-            blockHandler.AddBlock(2, 1);
-            blockHandler.PrintMergedMaps();
-            blockHandler.AddBlock(1, 1);
-            blockHandler.PrintMergedMaps();
-            blockHandler.AddBlock(1, 2); // 合併方塊
-            blockHandler.PrintMergedMaps();
+            blockHandler.AddBlock(0, 1, true);
+            blockHandler.AddBlock(2, 1, true);
+            blockHandler.AddBlock(1, 1, true);
+            blockHandler.AddBlock(1, 2, true); // 合併方塊
 
-            List<Map> mergedMaps = blockHandler.GetMergedMaps();
+            // Assert
+            int[,] expectedMap = new int[,]
+            {
+                { 3, 0, 1 },
+                { 0, 0, 0 },
+                { 0, 0, 0 }
+            };
 
+            CollectionAssert.AreEqual(expectedMap, blockHandler.GameMap.grid);
+        }
+
+        [Test]
+        public void Test3Merge()
+        {
+            var blockHandler = new BlockHandler(3, 3);
+            blockHandler.AddBlock(2, 2, true);
+            blockHandler.AddBlock(1, 1, true);
+            blockHandler.AddBlock(2, 1, true);
+            blockHandler.AddBlock(1, 1, true);
+            
+            // Assert
+            int[,] expectedMap = new int[,]
+            {
+                { 0, 3, 1 },
+                { 0, 0, 0 },
+                { 0, 0, 0 }
+            };
+
+            CollectionAssert.AreEqual(expectedMap, blockHandler.GameMap.grid);
         }
     }
 }
