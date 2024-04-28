@@ -115,40 +115,40 @@ public class BlockHandler
     
     private bool ShiftGridUp(int[,] grid)
     {
+        var none0 = new bool [gameMap.cols];
+        for (var i = 0; i < none0.Length; i++)
+        {
+            none0[i] = false;
+        }
+
         bool shifted = false;
-        bool[] hasNonZeroBelow = new bool[grid.GetLength(1)];
 
         for (int col = 0; col < grid.GetLength(1); col++)
         {
-            for (int row = grid.GetLength(0) - 1; row >= 0; row--)
+            for (int row = grid.GetLength(0) - 1; row >= 0 ; row--)
             {
-                if (grid[row, col] != 0)
+                if (grid[row, col] == 0)
                 {
-                    hasNonZeroBelow[col] = true;
-                }
-                else if (hasNonZeroBelow[col])
-                {
-                    int nonZeroRow = row + 1;
-                    while (nonZeroRow < grid.GetLength(0) && grid[nonZeroRow, col] == 0)
+                    if (none0[col])
                     {
-                        nonZeroRow++;
-                    }
+                        for (int i = row; i < grid.GetLength(0) - 1; i++)
+                        {
+                            grid[row + i, col] = grid[row + i + 1, col];
+                        }
 
-                    if (nonZeroRow < grid.GetLength(0))
-                    {
-                        grid[row, col] = grid[nonZeroRow, col];
-                        grid[nonZeroRow, col] = 0;
+                        grid[grid.GetLength(0) - 1, col] = 0;
                         shifted = true;
-                        hasNonZeroBelow[col] = true;
                     }
+                }
+                else
+                {
+                    none0[col] = true;
                 }
             }
         }
 
         return shifted;
     }
-
-
 
 
 
