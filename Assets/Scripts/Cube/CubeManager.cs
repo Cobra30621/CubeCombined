@@ -7,14 +7,27 @@ namespace Cube
 {
     public class CubeManager : ICubeManager
     {
-        public Dictionary<Vector2, int> numbers;
-        private bool isPlayingAnimation;
-
+        private List<List<int>> grid = new List<List<int>>();
 
         public override void Init()
         {
-            numbers = new Dictionary<Vector2, int>();
+            InitMap();
         }
+
+        public void InitMap()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                grid.Add(new List<int>());
+                for (int j = 0; j < 10; j++)
+                {
+                    grid[i].Add(0); // Initialize all cells with 0
+                }
+            }
+        }
+
+        private bool isPlayingAnimation;
+
 
         public override int GetCurrentCube()
         {
@@ -23,7 +36,17 @@ namespace Cube
 
         public override void AddCube(int row, int index)
         {
-            
+            if (row < 5 && row >= 0)
+            {
+                for (int i = 9; i >= 0; i--)
+                {
+                    if (grid[row][i] == 0)
+                    {
+                        grid[row][i] = index;
+                        return;
+                    }
+                }
+            }
         }
 
         private IEnumerator CombinedCoroutine()
