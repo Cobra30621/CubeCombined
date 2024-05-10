@@ -92,6 +92,7 @@ namespace Tests.Edit
         #region CanRelease
 
 
+        [Test]
         public void CheckCanRelease()
         {
             // Arrange

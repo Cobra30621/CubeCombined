@@ -32,7 +32,7 @@ namespace Cube
 
         public bool CanRelease(int column)
         {
-            return gameMap.GetGrid()[column, gameMap.rows - 1] == 0;
+            return gameMap.GetGrid()[gameMap.rows - 1, column] == 0;
         }
         
 
