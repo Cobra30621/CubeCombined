@@ -8,9 +8,9 @@ namespace Cube
         
         public abstract  int GetCurrentCube();
         
-        public abstract void AddCube(int row, int index);
+        public abstract void AddCube(int column, int value);
 
-        public abstract bool CanRelease(int row);
+        public abstract bool CanRelease(int column);
 
         public abstract bool IsPlayingAnimation();
     }

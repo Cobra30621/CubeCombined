@@ -7,46 +7,27 @@ namespace Cube
 {
     public class CubeManager : ICubeManager
     {
-        private List<List<int>> grid = new List<List<int>>();
-
+        public int MAX_ROW = 6;
+        public int MAX_COLUMN = 3;
+        private MapHandler _mapHandler;
+        
+        private bool isPlayingAnimation;
+        
+        
+        
         public override void Init()
         {
-            InitMap();
+            _mapHandler = new MapHandler(MAX_ROW, MAX_COLUMN);
         }
-
-        public void InitMap()
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                grid.Add(new List<int>());
-                for (int j = 0; j < 10; j++)
-                {
-                    grid[i].Add(0); // Initialize all cells with 0
-                }
-            }
-        }
-
-        private bool isPlayingAnimation;
-
-
+        
         public override int GetCurrentCube()
         {
             throw new System.NotImplementedException();
         }
 
-        public override void AddCube(int row, int index)
+        public override void AddCube(int column, int value)
         {
-            if (row < 5 && row >= 0)
-            {
-                for (int i = 9; i >= 0; i--)
-                {
-                    if (grid[row][i] == 0)
-                    {
-                        grid[row][i] = index;
-                        return;
-                    }
-                }
-            }
+            _mapHandler.AddCube(column, value);
         }
 
         private IEnumerator CombinedCoroutine()
@@ -57,7 +38,7 @@ namespace Cube
         }
         
 
-        public override bool CanRelease(int row)
+        public override bool CanRelease(int column)
         {
             return false;
         }

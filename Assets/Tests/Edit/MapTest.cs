@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cube;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Tests.Edit
         public void Empty_Init()
         {
             // Arrange
-            var handler = new BlockHandler(3, 3);
+            var handler = new MapHandler(3, 3);
 
             // Act
             
@@ -28,15 +29,15 @@ namespace Tests.Edit
         public void AddBlock()
         {
             // Arrange
-            var handler = new BlockHandler(3, 3);
+            var handler = new MapHandler(3, 3);
 
             // Act
-            handler.AddBlock(0,1,true);
-            handler.AddBlock(1,2,true);
-            handler.AddBlock(2,3,true);
-            handler.AddBlock(2,1,true);
-            handler.AddBlock(2,2,true);
-            handler.AddBlock(1,4,true);
+            handler.AddCube(0,1,true);
+            handler.AddCube(1,2,true);
+            handler.AddCube(2,3,true);
+            handler.AddCube(2,1,true);
+            handler.AddCube(2,2,true);
+            handler.AddCube(1,4,true);
             
             // Assert
             int[,] expectedMap = new int[,]
@@ -53,16 +54,16 @@ namespace Tests.Edit
         public void MergeBlock()
         {
             // Arrange
-            var handler = new BlockHandler(3, 3);
+            var handler = new MapHandler(3, 3);
 
             // Act
-            handler.AddBlock(0, 1, true);
-            handler.AddBlock(1, 1, true);
+            handler.AddCube(0, 1, true);
+            handler.AddCube(1, 1, true);
             
-            handler.AddBlock(1, 1, true);
-            handler.AddBlock(2, 1, true); // 合併方塊
-            handler.AddBlock(2, 1, true); // 合併方塊
-            handler.AddBlock(2, 1, true); // 合併方塊
+            handler.AddCube(1, 1, true);
+            handler.AddCube(2, 1, true); // 合併方塊
+            handler.AddCube(2, 1, true); // 合併方塊
+            handler.AddCube(2, 1, true); // 合併方塊
 
             // Assert
             int[,] expectedMap = new int[,]
@@ -78,12 +79,12 @@ namespace Tests.Edit
         [Test]
         public void ShiftBlock()
         {
-            var blockHandler = new BlockHandler(3, 3);
-            blockHandler.AddBlock(2, 2, true);
-            blockHandler.AddBlock(1, 1, true);
-            blockHandler.AddBlock(2, 1, true);
-            blockHandler.AddBlock(2, 4, true);
-            blockHandler.AddBlock(1, 1, true);
+            var blockHandler = new MapHandler(3, 3);
+            blockHandler.AddCube(2, 2, true);
+            blockHandler.AddCube(1, 1, true);
+            blockHandler.AddCube(2, 1, true);
+            blockHandler.AddCube(2, 4, true);
+            blockHandler.AddCube(1, 1, true);
             
             // Assert
             int[,] expectedMap = new int[,]

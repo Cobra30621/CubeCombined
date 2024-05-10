@@ -41,11 +41,11 @@ public class Map
         Debug.Log(mapString);
     }
 
-    public void AddBlock(int column, int value)
+    public void AddCube(int column, int value)
     {
         if (column < 0 || column >= cols)
         {
-            Debug.LogError("Invalid column number.");
+            Debug.LogError("Invalid MAX_COLUMN number.");
             return;
         }
 

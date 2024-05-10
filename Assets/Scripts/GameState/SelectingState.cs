@@ -11,7 +11,7 @@ namespace GameState
         public override void Update()
         {
             int row = InputSystem.GetRow();
-            // _gameContext.UpdateSelectingRow(row);
+            // _gameContext.UpdateSelectingRow(MAX_ROW);
 
             if (InputSystem.IsRelease())
             {
