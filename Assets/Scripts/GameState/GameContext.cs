@@ -6,10 +6,9 @@ namespace GameState
     {
         void SetGameState(GameState newState);
         
-        StateType CurrentState { get; }
+        StateType CurrentStateType { get; }
         ICubeManager CubeManager { get; set; }
-        CubeUI CubeUI { get; }
+        ICubeUI CubeUI { get; }
 
-        void UpdateSelectingRow(int row);
     }
 }

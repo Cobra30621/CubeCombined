@@ -25,10 +25,11 @@ namespace Cube
             }
         }
 
-        public void PrintMap()
+        public bool CanRelease(int column)
         {
-            gameMap.PrintMap();
+            return gameMap.GetGrid()[column, gameMap.rows - 1] == 0;
         }
+        
 
         public void AddCube(int column, int value, bool printMerge = false)
         {

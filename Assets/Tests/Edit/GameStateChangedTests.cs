@@ -1,6 +1,4 @@
-using Cube;
 using GameState;
-using Input;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -14,13 +12,13 @@ namespace Tests.Edit
         public void Idle_WhenStartGame()
         {
             // Arrange
-            var handler = InitGameProgressHandler();
+            var handler = TestsTool.InitGameProgressHandler();
             
             // Act
             handler.StartGame();
             
             // Assert
-            Assert.AreEqual(StateType.Idle, handler.CurrentState);
+            Assert.AreEqual(StateType.Idle, handler.CurrentStateType);
         }
         
         
@@ -28,9 +26,9 @@ namespace Tests.Edit
         public void IdleToSelecting_WhenClick()
         {
             // Arrange
-            var inputSystem = InitInputSystem();
+            var inputSystem = TestsTool.InitInputSystem();
             
-            var handler = InitGameProgressHandler();
+            var handler = TestsTool.InitGameProgressHandler();
             handler.StartGame();
             
             // Act
@@ -38,16 +36,16 @@ namespace Tests.Edit
             handler.Update();
             
             // Assert
-            Assert.AreEqual(StateType.Selecting, handler.CurrentState);
+            Assert.AreEqual(StateType.Selecting, handler.CurrentStateType);
         }
         
         [Test]
         public void KeepIdle_WhenNotClick()
         {
             // Arrange
-            var inputSystem = InitInputSystem();
+            var inputSystem = TestsTool.InitInputSystem();
             
-            var handler = InitGameProgressHandler();
+            var handler = TestsTool.InitGameProgressHandler();
             handler.StartGame();
             
             // Act
@@ -55,7 +53,7 @@ namespace Tests.Edit
             handler.Update();
             
             // Assert
-            Assert.AreEqual(StateType.Idle, handler.CurrentState);
+            Assert.AreEqual(StateType.Idle, handler.CurrentStateType);
         }
         
 
@@ -68,10 +66,10 @@ namespace Tests.Edit
         public void SelectingToProgressing_WhenRelease_AndCanRelease()
         {
             // Arrange
-            var inputSystem = InitInputSystem();
+            var inputSystem = TestsTool.InitInputSystem();
             
-            var handler = InitGameProgressHandler();
-            handler.SetGameState(new SelectingStateChanged());
+            var handler = TestsTool.InitGameProgressHandler();
+            handler.SetGameState(new SelectingState());
             
             // Act
             inputSystem.IsRelease().Returns(true);
@@ -79,7 +77,7 @@ namespace Tests.Edit
             handler.Update();
             
             // Assert
-            Assert.AreEqual(StateType.Progressing, handler.CurrentState);
+            Assert.AreEqual(StateType.Progressing, handler.CurrentStateType);
         }
         
         [Test]
@@ -87,10 +85,10 @@ namespace Tests.Edit
         public void SelectingToProgressing_WhenRelease_AndCanNotRelease()
         {
             // Arrange
-            var inputSystem = InitInputSystem();
+            var inputSystem = TestsTool.InitInputSystem();
             
-            var handler = InitGameProgressHandler();
-            handler.SetGameState(new SelectingStateChanged());
+            var handler = TestsTool.InitGameProgressHandler();
+            handler.SetGameState(new SelectingState());
             
             // Act
             inputSystem.IsRelease().Returns(true);
@@ -98,7 +96,7 @@ namespace Tests.Edit
             handler.Update();
             
             // Assert
-            Assert.AreEqual(StateType.Idle, handler.CurrentState);
+            Assert.AreEqual(StateType.Idle, handler.CurrentStateType);
         }
         
         [Test]
@@ -106,17 +104,17 @@ namespace Tests.Edit
         public void KeepSelecting_WhenNotRelease()
         {
             // Arrange
-            var inputSystem = InitInputSystem();
+            var inputSystem = TestsTool.InitInputSystem();
             
-            var handler = InitGameProgressHandler();
-            handler.SetGameState(new SelectingStateChanged());
+            var handler = TestsTool.InitGameProgressHandler();
+            handler.SetGameState(new SelectingState());
             
             // Act
             inputSystem.IsRelease().Returns(false);
             handler.Update();
             
             // Assert
-            Assert.AreEqual(StateType.Selecting, handler.CurrentState);
+            Assert.AreEqual(StateType.Selecting, handler.CurrentStateType);
         }
         
         #endregion
@@ -127,8 +125,8 @@ namespace Tests.Edit
         public void KeepProgressing_WhenNotAnimationComplete()
         {
             // Arrange
-            var handler = InitGameProgressHandler();
-            handler.SetGameState(new ProgressingStateChanged());
+            var handler = TestsTool.InitGameProgressHandler();
+            handler.SetGameState(new ProgressingState());
             
             // Update
             handler.CubeUI.IsAnimationComplete().Returns(false);
@@ -136,15 +134,15 @@ namespace Tests.Edit
             handler.Update();
             
             // Assert
-            Assert.AreEqual(StateType.Progressing, handler.CurrentState);
+            Assert.AreEqual(StateType.Progressing, handler.CurrentStateType);
         }
         
         [Test]
         public void ProgressingToIdle_WhenAnimationComplete()
         {
             // Arrange
-            var handler = InitGameProgressHandler();
-            handler.SetGameState(new ProgressingStateChanged());
+            var handler = TestsTool.InitGameProgressHandler();
+            handler.SetGameState(new ProgressingState());
             
             // Update
             handler.CubeUI.IsAnimationComplete().Returns(true);
@@ -152,45 +150,10 @@ namespace Tests.Edit
             handler.Update();
             
             // Assert
-            Assert.AreEqual(StateType.Idle, handler.CurrentState);
+            Assert.AreEqual(StateType.Idle, handler.CurrentStateType);
         }
 
         #endregion
 
-        #region Tools
-
-
-        private static GameProgressHandler InitGameProgressHandler()
-        {
-            var handler = new GameProgressHandler();
-            var initCubeManager = InitCubeManager();
-            var cubeUI = InitCubeUI();
-            handler.Init(initCubeManager, cubeUI);
-
-            return handler;
-        }
-
-
-        private static CubeUI InitCubeUI()
-        {
-            var cubeUI = Substitute.For<CubeUI>();
-            return cubeUI;
-        }
-        
-        private static ICubeManager InitCubeManager()
-        {
-            var cubeManager = Substitute.For<ICubeManager>();
-            return cubeManager;
-        }
-
-
-        private static IInputSystem InitInputSystem()
-        {
-            IInputSystem inputSystem = Substitute.For<IInputSystem>();
-            InputSetting.SetInputSystem(inputSystem);
-            return inputSystem;
-        }
-
-        #endregion
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameState
 {
-    public class SelectingStateChanged : GameState
+    public class SelectingState : GameState
     {
         public override StateType GetStateType() => StateType.Selecting;
 
@@ -11,17 +11,17 @@ namespace GameState
 
         public override void EnterState()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public override void Update()
         {
-            int row = InputSystem.GetRow();
-            _gameContext.UpdateSelectingRow(row);
+            
 
             if (InputSystem.IsRelease())
             {
                 Debug.Log("IsRelease");
+                int row = InputSystem.GetRow();
                 Release(row);
             }
         }
@@ -32,11 +32,11 @@ namespace GameState
             if (CubeManager.CanRelease(column))
             {
                 CubeManager.AddCube(column);
-                _gameContext.SetGameState(new ProgressingStateChanged());
+                _gameContext.SetGameState(new ProgressingState());
             }
             else
             {
-                _gameContext.SetGameState(new IdleStateChanged());
+                _gameContext.SetGameState(new IdleState());
             }
         }
     }

@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace GameState
 {
-    public class ProgressingStateChanged : GameState
+    public class ProgressingState : GameState
     {
         public override StateType GetStateType() => StateType.Progressing;
 
-        private CubeUI _cubeUI => _gameContext.CubeUI;
+        private ICubeUI _cubeUI => _gameContext.CubeUI;
         
         public override void EnterState()
         {
@@ -30,7 +30,7 @@ namespace GameState
         private void OnAnimationComplete()
         {
             CheckEvent();
-            _gameContext.SetGameState(new IdleStateChanged());
+            _gameContext.SetGameState(new IdleState());
         }
 
         private void CheckEvent()

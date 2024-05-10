@@ -3,12 +3,11 @@ using UnityEngine;
 
 namespace GameState
 {
-    public class IdleStateChanged : GameState
+    public class IdleState : GameState
     {
         public override StateType GetStateType() => StateType.Idle;
         public override void EnterState()
         {
-            throw new System.NotImplementedException();
         }
 
 
@@ -17,7 +16,7 @@ namespace GameState
             if (InputSetting.InputSystem.IsClick())
             {
                 Debug.Log("Is Click");
-                _gameContext.SetGameState(new SelectingStateChanged());
+                _gameContext.SetGameState(new SelectingState());
             }   
         }
     }

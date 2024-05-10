@@ -20,7 +20,7 @@ namespace Cube
         
         public override int GetCurrentCube()
         {
-            throw new System.NotImplementedException();
+            return currentCube;
         }
 
         public override void AddCube(int column)
@@ -28,17 +28,11 @@ namespace Cube
             _mapHandler.AddCube(column, currentCube);
         }
 
-        private IEnumerator CombinedCoroutine()
-        {
 
-
-            yield return null;
-        }
-        
 
         public override bool CanRelease(int column)
         {
-            return false;
+            return _mapHandler.CanRelease(column);
         }
 
 
