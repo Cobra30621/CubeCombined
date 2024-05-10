@@ -5,8 +5,54 @@ using UnityEngine;
 
 namespace Tests.Edit
 {
-    public class MapTest
+    public class AddBlockTests
     {
+        #region Map
+
+        [Test]
+        public void InitMap_ZeroElement()
+        {
+            // Arrange
+            var map = new Map(3, 3);
+            
+            // Act
+            
+            // Assert
+            int[,] expected = new int[,]
+            {
+                { 0, 0, 0 },
+                { 0, 0, 0 },
+                { 0, 0, 0 }
+            };
+            
+            CollectionAssert.AreEqual(expected, map.grid);
+        }
+        
+        [Test]
+        public void MapSetMap_AreEqual()
+        {
+            // Arrange
+            int[,] expectedMap = new int[,]
+            {
+                { 1, 2, 3 },
+                { 0, 4, 1 },
+                { 0, 0, 2 }
+            };
+
+            var map = new Map(expectedMap);
+            
+            // Assert
+            CollectionAssert.AreEqual(expectedMap, map.grid);
+        }
+        
+        
+
+        #endregion
+
+
+        #region MapHandler
+
+
         [Test]
         public void Empty_Init()
         {
@@ -24,6 +70,53 @@ namespace Tests.Edit
             };
             AssertMap(expectedMap, handler.GameMap);
         }
+
+        [Test]
+        public void MapHandlerSetMap_AreEqual()
+        {
+            // Arrange
+            var handler = new MapHandler(3,3);
+            int[,] grid = new int[,]
+            {
+                { 1, 2, 3 },
+                { 0, 4, 1 },
+                { 0, 0, 2 }
+            };
+
+            handler.SetMap(grid);
+            
+            // Assert
+            AssertMap(grid, handler.GameMap);
+        }
+
+        #region CanRelease
+
+
+        public void CheckCanRelease()
+        {
+            // Arrange
+            var handler = new MapHandler(3,3);
+            int[,] grid = new int[,]
+            {
+                { 1, 2, 3 },
+                { 0, 4, 1 },
+                { 0, 0, 2 }
+            };
+
+            handler.SetMap(grid);
+            
+            // Assert
+            Assert.IsTrue(handler.CanRelease(0));
+            Assert.IsTrue(handler.CanRelease(1));
+            Assert.IsFalse(handler.CanRelease(2));
+            
+        }
+        
+
+        #endregion
+
+
+        #region AddBlock
 
         [Test]
         public void AddBlock()
@@ -96,8 +189,12 @@ namespace Tests.Edit
             
             AssertMap(expectedMap, blockHandler.GameMap);
         }
+        
 
+        #endregion
+        
 
+        #endregion
         #region Tools
 
         private void AssertMap(int[,] expected, Map map)

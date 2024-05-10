@@ -16,6 +16,11 @@ namespace Cube
             gameMap = new Map(numRows, numCols);
         }
 
+        public void SetMap(int[,] grid)
+        {
+            gameMap = new Map(grid);
+        }
+
         public void PrintMergedMaps()
         {
             Debug.Log(mergedMaps.Count);

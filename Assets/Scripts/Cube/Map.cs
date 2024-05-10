@@ -6,6 +6,13 @@ public class Map
     public int rows;
     public int cols;
 
+    public Map(int[,] map)
+    {
+        rows = map.GetLength(0);
+        cols = map.GetLength(1);
+        grid = (int[,]) map.Clone();
+    }
+    
     public Map(int numRows, int numCols)
     {
         rows = numRows;
