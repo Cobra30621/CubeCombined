@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Cube
 {
     public interface CubeUI
@@ -5,5 +7,9 @@ namespace Cube
         public void ShowSelecting(int row, int num);
 
         public void CloseSelecting();
+
+        public void PlayAddCubeAnimation(List<Map> mergeMap);
+
+        public bool IsAnimationComplete();
     }
 }

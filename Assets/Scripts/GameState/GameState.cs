@@ -20,6 +20,8 @@ namespace GameState
         }
 
         public abstract StateType GetStateType();
+
+        public abstract void EnterState();
         
         public abstract void Update();
     }

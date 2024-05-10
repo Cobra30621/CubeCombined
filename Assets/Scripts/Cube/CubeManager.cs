@@ -10,10 +10,8 @@ namespace Cube
         public int MAX_ROW = 6;
         public int MAX_COLUMN = 3;
         private MapHandler _mapHandler;
-        
-        private bool isPlayingAnimation;
-        
-        
+
+        private int currentCube;
         
         public override void Init()
         {
@@ -25,9 +23,9 @@ namespace Cube
             throw new System.NotImplementedException();
         }
 
-        public override void AddCube(int column, int value)
+        public override void AddCube(int column)
         {
-            _mapHandler.AddCube(column, value);
+            _mapHandler.AddCube(column, currentCube);
         }
 
         private IEnumerator CombinedCoroutine()
@@ -43,9 +41,10 @@ namespace Cube
             return false;
         }
 
-        public override bool IsPlayingAnimation()
+
+        public override List<Map> GerMergeMap()
         {
-            return isPlayingAnimation;
+            return _mapHandler.GetMergedMaps();
         }
     }
 }

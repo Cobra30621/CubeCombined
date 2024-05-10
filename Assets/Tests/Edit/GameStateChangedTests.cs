@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Tests.Edit
 {
-    public class GameStateTests
+    public class GameStateChangedTests
     {
         #region Idle
 
@@ -14,7 +14,7 @@ namespace Tests.Edit
         public void Idle_WhenStartGame()
         {
             // Arrange
-            var handler = new GameProgressHandler();
+            var handler = InitGameProgressHandler();
             
             // Act
             handler.StartGame();
@@ -30,7 +30,7 @@ namespace Tests.Edit
             // Arrange
             var inputSystem = InitInputSystem();
             
-            var handler = new GameProgressHandler();
+            var handler = InitGameProgressHandler();
             handler.StartGame();
             
             // Act
@@ -47,7 +47,7 @@ namespace Tests.Edit
             // Arrange
             var inputSystem = InitInputSystem();
             
-            var handler = new GameProgressHandler();
+            var handler = InitGameProgressHandler();
             handler.StartGame();
             
             // Act
@@ -65,24 +65,40 @@ namespace Tests.Edit
 
         [Test]
 
-        public void SelectingToProgressing_WhenRelease()
+        public void SelectingToProgressing_WhenRelease_AndCanRelease()
         {
             // Arrange
             var inputSystem = InitInputSystem();
             
-            var handler = new GameProgressHandler();
-            handler.SetGameState(new SelectingState());
-            
-            var cubeManager = InitCubeManager();
-            handler.Init(cubeManager);
+            var handler = InitGameProgressHandler();
+            handler.SetGameState(new SelectingStateChanged());
             
             // Act
             inputSystem.IsRelease().Returns(true);
-            cubeManager.CanRelease(1).ReturnsForAnyArgs(true);
+            handler.CubeManager.CanRelease(1).ReturnsForAnyArgs(true);
             handler.Update();
             
             // Assert
             Assert.AreEqual(StateType.Progressing, handler.CurrentState);
+        }
+        
+        [Test]
+
+        public void SelectingToProgressing_WhenRelease_AndCanNotRelease()
+        {
+            // Arrange
+            var inputSystem = InitInputSystem();
+            
+            var handler = InitGameProgressHandler();
+            handler.SetGameState(new SelectingStateChanged());
+            
+            // Act
+            inputSystem.IsRelease().Returns(true);
+            handler.CubeManager.CanRelease(1).ReturnsForAnyArgs(false);
+            handler.Update();
+            
+            // Assert
+            Assert.AreEqual(StateType.Idle, handler.CurrentState);
         }
         
         [Test]
@@ -92,8 +108,8 @@ namespace Tests.Edit
             // Arrange
             var inputSystem = InitInputSystem();
             
-            var handler = new GameProgressHandler();
-            handler.SetGameState(new SelectingState());
+            var handler = InitGameProgressHandler();
+            handler.SetGameState(new SelectingStateChanged());
             
             // Act
             inputSystem.IsRelease().Returns(false);
@@ -103,29 +119,6 @@ namespace Tests.Edit
             Assert.AreEqual(StateType.Selecting, handler.CurrentState);
         }
         
-        
-        [Test]
-
-        public void SelectingToIdle_WhenReleaseFail()
-        {
-            // Arrange
-            var inputSystem = InitInputSystem();
-            
-            var handler = new GameProgressHandler();
-            handler.SetGameState(new SelectingState());
-            
-            var cubeManager = InitCubeManager();
-            handler.Init(cubeManager);
-            
-            // Act
-            inputSystem.IsRelease().Returns(true);
-            cubeManager.CanRelease(1).ReturnsForAnyArgs(false);
-            handler.Update();
-            
-            // Assert
-            Assert.AreEqual(StateType.Idle, handler.CurrentState);
-        }
-
         #endregion
 
         #region Progressing
@@ -134,33 +127,27 @@ namespace Tests.Edit
         public void KeepProgressing_WhenNotAnimationComplete()
         {
             // Arrange
-            var handler = new GameProgressHandler();
-            handler.SetGameState(new ProgressingState());
-            
-            var cubeManager = InitCubeManager();
-            handler.Init(cubeManager);
+            var handler = InitGameProgressHandler();
+            handler.SetGameState(new ProgressingStateChanged());
             
             // Update
-            cubeManager.IsPlayingAnimation().Returns(false);
+            handler.CubeUI.IsAnimationComplete().Returns(false);
             
             handler.Update();
             
             // Assert
-            Assert.AreEqual(StateType.Idle, handler.CurrentState);
+            Assert.AreEqual(StateType.Progressing, handler.CurrentState);
         }
         
         [Test]
         public void ProgressingToIdle_WhenAnimationComplete()
         {
             // Arrange
-            var handler = new GameProgressHandler();
-            handler.SetGameState(new ProgressingState());
-            
-            var cubeManager = InitCubeManager();
-            handler.Init(cubeManager);
+            var handler = InitGameProgressHandler();
+            handler.SetGameState(new ProgressingStateChanged());
             
             // Update
-            cubeManager.IsPlayingAnimation().Returns(false);
+            handler.CubeUI.IsAnimationComplete().Returns(true);
             
             handler.Update();
             
@@ -170,16 +157,26 @@ namespace Tests.Edit
 
         #endregion
 
+        #region Tools
 
-        private static ICubeManager SetCubeManager(GameProgressHandler handler)
+
+        private static GameProgressHandler InitGameProgressHandler()
         {
+            var handler = new GameProgressHandler();
             var initCubeManager = InitCubeManager();
-            handler.Init(initCubeManager);
+            var cubeUI = InitCubeUI();
+            handler.Init(initCubeManager, cubeUI);
 
-            return initCubeManager;
+            return handler;
+        }
+
+
+        private static CubeUI InitCubeUI()
+        {
+            var cubeUI = Substitute.For<CubeUI>();
+            return cubeUI;
         }
         
-
         private static ICubeManager InitCubeManager()
         {
             var cubeManager = Substitute.For<ICubeManager>();
@@ -193,5 +190,7 @@ namespace Tests.Edit
             InputSetting.SetInputSystem(inputSystem);
             return inputSystem;
         }
+
+        #endregion
     }
 }
