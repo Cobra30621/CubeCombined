@@ -1,12 +1,14 @@
 using Cube;
 using JetBrains.Annotations;
+using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace GameState
 {
-    public class GameProgressHandler : GameContext
+    public class GameProgressHandler :  GameContext
     {
-        private GameState _gameState;
+        [SerializeField] private GameState _gameState;
 
         public int CurrentRow;
 
@@ -22,12 +24,13 @@ namespace GameState
         }
         
 
-        [ContextMenu("開始遊戲")]
         public void StartGame()
         {    
+            CubeManager.Init();
             SetGameState(new IdleState());
         }
 
+        [Button("設置遊戲狀態")]
 
         public void SetGameState(GameState newState)
         {

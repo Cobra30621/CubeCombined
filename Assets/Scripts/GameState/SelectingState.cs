@@ -1,4 +1,5 @@
 using Input;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace GameState
@@ -26,12 +27,13 @@ namespace GameState
             }
         }
 
+        [Button("放置")]
         private void Release(int column)
         {
             Debug.Log($"{CubeManager.CanRelease(column)}");
-            if (CubeManager.CanRelease(column))
+            var canRelease = CubeManager.AddCube(column);
+            if (canRelease)
             {
-                CubeManager.AddCube(column);
                 _gameContext.SetGameState(new ProgressingState());
             }
             else

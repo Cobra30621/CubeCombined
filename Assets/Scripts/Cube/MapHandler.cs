@@ -5,8 +5,8 @@ namespace Cube
 {
     public class MapHandler
     {
-        private List<Map> mergedMaps;
-        private Map gameMap;
+        [SerializeField] private List<Map> mergedMaps;
+        [SerializeField] private Map gameMap;
 
         public Map GameMap => gameMap;
     

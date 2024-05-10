@@ -8,8 +8,10 @@ namespace Cube
         public abstract void Init();
         
         public abstract  int GetCurrentCube();
+
+        public abstract Map GetCurrentMap();
         
-        public abstract void AddCube(int column);
+        public abstract bool AddCube(int column);
 
         public abstract bool CanRelease(int column);
         

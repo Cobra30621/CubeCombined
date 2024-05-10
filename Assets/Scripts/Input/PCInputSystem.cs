@@ -6,7 +6,7 @@ namespace Input
     {
         public bool IsClick()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         public bool IsRelease()

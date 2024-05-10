@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Cube
@@ -9,9 +10,9 @@ namespace Cube
     {
         public int MAX_ROW = 6;
         public int MAX_COLUMN = 3;
-        private MapHandler _mapHandler;
+        [SerializeField] private MapHandler _mapHandler;
 
-        private int currentCube;
+        [SerializeField] private int currentCube = 1;
         
         public override void Init()
         {
@@ -23,9 +24,29 @@ namespace Cube
             return currentCube;
         }
 
-        public override void AddCube(int column)
+        public override Map GetCurrentMap()
         {
-            _mapHandler.AddCube(column, currentCube);
+            return _mapHandler.GameMap;
+        }
+
+
+        [Button("放置方塊")]
+        public void AddCube(int column, int number)
+        {
+            currentCube = number;
+            AddCube(column);
+        }
+
+        
+        public override bool AddCube(int column)
+        {
+            bool canRelease = CanRelease(column);
+            if (canRelease)
+            {
+                _mapHandler.AddCube(column, currentCube);
+            }
+
+            return canRelease;
         }
 
 
