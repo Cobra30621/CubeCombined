@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Map
@@ -52,17 +53,23 @@ public class Map
     {
         if (column < 0 || column >= cols)
         {
-            Debug.LogError("Invalid MAX_COLUMN number.");
-            return;
+            throw new Exception($"column {column} is out of range");
         }
 
+        bool haveAddCube = false;
         for (int i = 0; i < rows; i++)
         {
             if (grid[i, column] == 0)
             {
                 grid[i, column] = value;
+                haveAddCube = true;
                 break;
             }
+        }
+
+        if (!haveAddCube)
+        {
+            throw new Exception($"column {column} is full");
         }
     }
 

@@ -7,49 +7,9 @@ namespace Tests.Edit
 {
     public class AddBlockTests
     {
-        #region Map
+        private readonly MapTests _mapTests = new MapTests();
 
-        [Test]
-        public void InitMap_ZeroElement()
-        {
-            // Arrange
-            var map = new Map(3, 3);
-            
-            // Act
-            
-            // Assert
-            int[,] expected = new int[,]
-            {
-                { 0, 0, 0 },
-                { 0, 0, 0 },
-                { 0, 0, 0 }
-            };
-            
-            CollectionAssert.AreEqual(expected, map.grid);
-        }
         
-        [Test]
-        public void MapSetMap_AreEqual()
-        {
-            // Arrange
-            int[,] expectedMap = new int[,]
-            {
-                { 1, 2, 3 },
-                { 0, 4, 1 },
-                { 0, 0, 2 }
-            };
-
-            var map = new Map(expectedMap);
-            
-            // Assert
-            CollectionAssert.AreEqual(expectedMap, map.grid);
-        }
-        
-        
-
-        #endregion
-
-
         #region MapHandler
 
 
@@ -72,7 +32,7 @@ namespace Tests.Edit
         }
 
         [Test]
-        public void MapHandlerSetMap_AreEqual()
+        public void SetMap_AreEqual()
         {
             // Arrange
             var handler = new MapHandler(3,3);
@@ -169,28 +129,23 @@ namespace Tests.Edit
             
             AssertMap(expectedMap, handler.GameMap);
         }
+        
+        private string folder_path = "Assets/Tests/Edit/Map/TestCases/";
 
         [Test]
         public void ShiftBlock()
         {
             var blockHandler = new MapHandler(3, 3);
-            blockHandler.AddCube(2, 2, true);
-            blockHandler.AddCube(1, 1, true);
-            blockHandler.AddCube(2, 1, true);
-            blockHandler.AddCube(2, 4, true);
-            blockHandler.AddCube(1, 1, true);
             
-            // Assert
-            int[,] expectedMap = new int[,]
+            var mapClip = MapLoader.LoadMapsFromFile(folder_path + "ShiftBlockTestCase.txt");
+            
+            foreach (var (shift, expect, expectHaveShift) in mapClip)
             {
-                { 0, 3, 1 },
-                { 0, 0, 4 },
-                { 0, 0, 0 }
-            };
-            
-            AssertMap(expectedMap, blockHandler.GameMap);
+                bool haveShift = blockHandler.ShiftGridUp(shift.grid);
+                AssertMap(expect.grid, shift);
+                Assert.AreEqual(expectHaveShift, haveShift);
+            }
         }
-        
 
         #endregion
         

@@ -54,7 +54,7 @@ namespace Cube
             return mergedMaps;
         }
 
-        private void CheckAndMergeBlocks(Map map)
+        public void CheckAndMergeBlocks(Map map)
         {
             bool merged = false;
             int[,] grid = map.GetGrid();
@@ -120,37 +120,23 @@ namespace Cube
 
             return merged;
         }
-    
-        private bool ShiftGridUp(int[,] grid)
+
+        public bool ShiftGridUp(int[,] grid)
         {
-            var none0 = new bool [gameMap.cols];
-            for (var i = 0; i < none0.Length; i++)
-            {
-                none0[i] = false;
-            }
-
             bool shifted = false;
-
+            
             for (int col = 0; col < grid.GetLength(1); col++)
             {
-                for (int row = grid.GetLength(0) - 1; row >= 0 ; row--)
+                for (int row = grid.GetLength(0)  -1; row >= 1; row--)
                 {
-                    if (grid[row, col] == 0)
+                    if (grid[row, col] != 0)
                     {
-                        if (none0[col])
+                        if (grid[row - 1, col] == 0)
                         {
-                            for (int i = row; i < grid.GetLength(0) - 1; i++)
-                            {
-                                grid[row + i, col] = grid[row + i + 1, col];
-                            }
-
-                            grid[grid.GetLength(0) - 1, col] = 0;
+                            grid[row  - 1, col] = grid[row, col];
+                            grid[row, col] = 0;
                             shifted = true;
                         }
-                    }
-                    else
-                    {
-                        none0[col] = true;
                     }
                 }
             }
