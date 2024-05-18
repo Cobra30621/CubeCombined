@@ -137,13 +137,66 @@ namespace Tests.Edit
         {
             var blockHandler = new MapHandler(3, 3);
             
-            var mapClip = MapLoader.LoadMapsFromFile(folder_path + "ShiftBlockTestCase.txt");
+            var mapClip = MapLoader.LoadMapsWithBool(folder_path + "ShiftBlockTestCase.txt");
             
-            foreach (var (shift, expect, expectHaveShift) in mapClip)
+            foreach (var (initMap, expect, expectHaveShift) in mapClip)
             {
-                bool haveShift = blockHandler.ShiftGridUp(shift.grid);
-                AssertMap(expect.grid, shift);
+                bool haveShift = blockHandler.ShiftGridUp(initMap.grid);
+                AssertMap(expect.grid, initMap);
                 Assert.AreEqual(expectHaveShift, haveShift);
+            }
+        }
+
+        [Test]
+        public void MergeMap()
+        {
+            var blockHandler = new MapHandler(3, 3);
+            
+            var mapClip = MapLoader.LoadMapsWithBool(folder_path + "MergeMapTestCase.txt");
+            
+            foreach (var (initMap, expect, expectHaveShift) in mapClip)
+            {
+                bool haveShift = blockHandler.MergeMap(initMap);
+                AssertMap(expect.grid, initMap);
+                Assert.AreEqual(expectHaveShift, haveShift);
+            }
+        }
+
+        [Test]
+        public void CheckAndMerge_BasicCase()
+        {
+            CheckAndMergeTest("CheckAndMerge_BasicCase.txt");
+        }
+        
+        [Test]
+        public void CheckAndMerge_CompleteCase()
+        {
+            CheckAndMergeTest("CheckAndMerge_CompleteCase.txt");
+        }
+
+        private void CheckAndMergeTest(string filename)
+        {
+            var blockHandler = new MapHandler(3, 3);
+            
+            var mapClip = MapLoader.LoadMapsWithInt(folder_path + filename);
+
+            for (var index = 0; index < mapClip.Count; index++)
+            {
+                // Act
+                Debug.Log($"[Test Case {index} ]");
+                blockHandler.GetMergedMaps().Clear();
+                var (initMap, expect, expectedMergeMapCount) = mapClip[index];
+
+                var testMap = new Map(initMap);
+                blockHandler.CheckAndMergeBlocks(testMap);
+                int mergeMapCount = blockHandler.GetMergedMaps().Count;
+                
+                // Assert
+                AssertMap(expect.grid, testMap);
+                Debug.Log("Progress: " + blockHandler.GetMergedMaps().Count);
+                initMap.PrintMap();
+                blockHandler.PrintMergedMaps();
+                Assert.AreEqual(expectedMergeMapCount, mergeMapCount);
             }
         }
 

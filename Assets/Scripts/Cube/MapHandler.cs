@@ -23,7 +23,7 @@ namespace Cube
 
         public void PrintMergedMaps()
         {
-            Debug.Log(mergedMaps.Count);
+            
             foreach (var map in mergedMaps)
             {
                 map.PrintMap();
@@ -57,39 +57,46 @@ namespace Cube
         public void CheckAndMergeBlocks(Map map)
         {
             bool merged = false;
-            int[,] grid = map.GetGrid();
-
             do
             {
-                merged = false;
-
-                for (int i = 0; i < map.rows; i++)
+                var shiftGridUp = ShiftGridUp(map.GetGrid());
+                if (shiftGridUp)
                 {
-                    for (int j = 0; j < map.cols; j++)
-                    {
-                        if (grid[i, j] != 0 && !merged)
-                        {
-                            merged = CheckAndMerge(grid, i, j);
-                        }
-                    }
+                    mergedMaps.Add(new Map(map));
+                    
                 }
+                
+                merged = MergeMap(map);
 
                 if (merged)
                 {
-                    map.grid = grid;
                     mergedMaps.Add(new Map(map));
-
-                    var shiftGridUp = ShiftGridUp(grid);
-                    if (shiftGridUp)
-                    {
-                        mergedMaps.Add(new Map(map));
-                    }
                 }
-
+                
+                
             } while (merged);
         }
 
-        private bool CheckAndMerge(int[,] grid, int row, int col)
+        public bool MergeMap(Map map)
+        {
+            var merged = false;
+            int[,] grid = map.GetGrid();
+
+            for (int i = 0; i < map.rows; i++)
+            {
+                for (int j = 0; j < map.cols; j++)
+                {
+                    if (grid[i, j] != 0 && !merged)
+                    {
+                        merged = MergeSingleBlock(grid, i, j);
+                    }
+                }
+            }
+
+            return merged;
+        }
+
+        private bool MergeSingleBlock(int[,] grid, int row, int col)
         {
             bool merged = false;
 

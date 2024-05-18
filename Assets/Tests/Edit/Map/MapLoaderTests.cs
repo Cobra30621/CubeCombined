@@ -37,7 +37,7 @@ namespace Tests.Edit
 
         #endregion
 
-        #region LoadMapsFromFile
+        #region LoadMapsWithBool
 
         private string folder_path = "Assets/Tests/Edit/Map/TestCases/";
         
@@ -59,7 +59,7 @@ namespace Tests.Edit
             File.WriteAllLines(filePath, expectedMaps);
 
             // Act
-            var result = MapLoader.LoadMapsFromFile(filePath);
+            var result = MapLoader.LoadMapsWithBool(filePath);
 
             // Assert
             Assert.AreEqual(1, result.Count);
@@ -94,7 +94,7 @@ namespace Tests.Edit
             File.WriteAllLines(filePath, expectedMaps);
 
             // Act
-            var result = MapLoader.LoadMapsFromFile(filePath);
+            var result = MapLoader.LoadMapsWithBool(filePath);
 
             // Assert
             Assert.AreEqual(2, result.Count);
@@ -124,7 +124,7 @@ namespace Tests.Edit
             File.WriteAllLines(filePath, invalidData);
 
             // Act & Assert
-            Assert.Throws<Exception>(() => MapLoader.LoadMapsFromFile(filePath));
+            Assert.Throws<Exception>(() => MapLoader.LoadMapsWithBool(filePath));
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace Tests.Edit
             File.WriteAllLines(filePath, new string[] { });
 
             // Act
-            var result = MapLoader.LoadMapsFromFile(filePath);
+            var result = MapLoader.LoadMapsWithBool(filePath);
 
             // Assert
             Assert.AreEqual(0, result.Count);
@@ -156,7 +156,7 @@ namespace Tests.Edit
             File.WriteAllLines(filePath, oddData);
 
             // Act & Assert
-            Assert.Throws<Exception>(() => MapLoader.LoadMapsFromFile(filePath));
+            Assert.Throws<Exception>(() => MapLoader.LoadMapsWithBool(filePath));
         }
 
         [Test]
@@ -178,13 +178,13 @@ namespace Tests.Edit
             File.WriteAllLines(filePath, invalidMapData);
 
             // Act & Assert
-            Assert.Throws<Exception>(() => MapLoader.LoadMapsFromFile(filePath));
+            Assert.Throws<Exception>(() => MapLoader.LoadMapsWithBool(filePath));
         }
 
         [Test]
         public void LoadRealFile()
         {
-            var result = MapLoader.LoadMapsFromFile( folder_path + "ShiftBlockTestCase.txt");
+            var result = MapLoader.LoadMapsWithBool( folder_path + "ShiftBlockTestCase.txt");
 
             foreach (var (item1, item2, item3) in result)
             {

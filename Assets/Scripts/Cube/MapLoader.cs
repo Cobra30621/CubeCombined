@@ -6,35 +6,51 @@ namespace Cube
 {
     public class MapLoader
     {
-        public static List<(Map, Map, bool)> LoadMapsFromFile(string filePath)
+        
+        
+        public static List<(Map, Map, bool)> LoadMapsWithBool(string filePath)
         {
-            List<(Map, Map, bool)> mapPairs = new List<(Map, Map, bool)>();
+            var intPairs = LoadMapsWithInt(filePath);
+            var mapPairs = new List<(Map, Map, bool)>();
+            foreach ((Map, Map, int) pair in intPairs)
+            {
+                bool haveChange = pair.Item3 == 1;
+                mapPairs.Add((pair.Item1, pair.Item2, haveChange));
+            }
+        
+            return mapPairs;
+        }
+        
+        public static List<(Map, Map, int)> LoadMapsWithInt(string filePath)
+        {
+            var mapPairs = new List<(Map, Map, int)>();
             string[] lines = File.ReadAllLines(filePath);
 
             if (lines.Length % 7 != 0)
             {
-                throw new Exception($"檔案格式錯誤：每六行應該對應一組 <Map, Map>，並且每組 <Map, Map> 間應該有一行空白。\n輸入為 {lines.Length}行");
+                throw new Exception($"檔案格式錯誤：每六行應該對應一組 <Map, Map>，並且每組 <Map, Map> 間應該有一個 int。\n輸入為 {lines.Length}行");
             }
 
             for (int i = 0; i < lines.Length; i += 7)
             {
                 Map map1 = ParseMap(lines[i + 0], lines[i + 1], lines[i + 2]);
                 Map map2 = ParseMap(lines[i + 3], lines[i + 4], lines[i + 5]);
-                
-                
-                var pair = ParseBool(lines[i + 6]);
-                bool haveShift = pair.Item1;
-                bool parseSuccess = pair.Item2;
+
+                int value = 0;
+                var parseSuccess = int.TryParse(lines[i + 6], out value);
+
                 
                 if (!parseSuccess)
                 {
-                    throw new Exception($"每組 <Map, Map> 間應該一個 bool \n該行為:{lines[i + 6]}");
+                    throw new Exception($"每組 <Map, Map> 間應該一個 int \n該行為:{lines[i + 6]}");
                 }
-                mapPairs.Add((map1, map2, haveShift));
+                mapPairs.Add((map1, map2, value));
             }
 
             return mapPairs;
         }
+
+        
 
         private static (bool, bool) ParseBool(string text)
         {
