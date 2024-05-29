@@ -6,7 +6,28 @@ namespace Cube
 {
     public class MapLoader
     {
-        
+        public static List<(Map, bool[])> LoadCanReleaseMap(string filePath)
+        {
+            var mapPairs = new List<(Map, bool[])>();
+            string[] lines = File.ReadAllLines(filePath);
+
+            if (lines.Length % 4 != 0)
+            {
+                throw new Exception($"檔案格式錯誤：每四行應該對應一組 <Map, bool>，並且每組 <Map, bool> 間應該有一個 int。\n輸入為 {lines.Length}行");
+            }
+
+            for (int i = 0; i < lines.Length; i += 4)
+            {
+                Map map1 = ParseMap(lines[i + 0], lines[i + 1], lines[i + 2]);
+
+                var canReleaseArray = ParseBoolArray(lines[i + 3]);
+                
+                mapPairs.Add((map1, canReleaseArray));
+            }
+
+            return mapPairs;
+            
+        }
         
         public static List<(Map, Map, bool)> LoadMapsWithBool(string filePath)
         {
@@ -60,6 +81,23 @@ namespace Cube
             }
 
             return (false, false);
+        }
+
+        public static bool[] ParseBoolArray(string row)
+        {
+            string[] values1 = row.Split(' ');
+            if (values1.Length != 3)
+            {
+                throw new Exception("檔案格式錯誤：每行應該包含三個數字");
+            } 
+
+            var bools = new bool[3];
+            for (int i = 0; i < 3; i++)
+            {
+                bools[i] = int.Parse(values1[i]) == 1;
+            }
+
+            return bools;
         }
 
         public static Map ParseMap(string row1, string row2, string row3)

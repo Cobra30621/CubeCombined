@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Tests.Edit
 {
-    public class AddBlockTests
+    public class MapHandlerTests
     {
         private readonly MapTests _mapTests = new MapTests();
 
@@ -50,8 +50,6 @@ namespace Tests.Edit
         }
 
         #region CanRelease
-
-
         [Test]
         public void CheckCanRelease()
         {
@@ -79,59 +77,31 @@ namespace Tests.Edit
 
         #region AddBlock
 
-        [Test]
-        public void AddBlock()
-        {
-            // Arrange
-            var handler = new MapHandler(3, 3);
-
-            // Act
-            handler.AddCube(0,1,true);
-            handler.AddCube(1,2,true);
-            handler.AddCube(2,3,true);
-            handler.AddCube(2,1,true);
-            handler.AddCube(2,2,true);
-            handler.AddCube(1,4,true);
-            
-            // Assert
-            int[,] expectedMap = new int[,]
-            {
-                { 1, 2, 3 },
-                { 0, 4, 1 },
-                { 0, 0, 2 }
-            };
-            AssertMap(expectedMap, handler.GameMap);
-        }
-
         
-        [Test]
-        public void MergeBlock()
-        {
-            // Arrange
-            var handler = new MapHandler(3, 3);
-
-            // Act
-            handler.AddCube(0, 1, true);
-            handler.AddCube(1, 1, true);
-            
-            handler.AddCube(1, 1, true);
-            handler.AddCube(2, 1, true); // 合併方塊
-            handler.AddCube(2, 1, true); // 合併方塊
-            handler.AddCube(2, 1, true); // 合併方塊
-
-            // Assert
-            int[,] expectedMap = new int[,]
-            {
-                { 3, 0, 2 },
-                { 0, 0, 0 },
-                { 0, 0, 0 }
-            };
-            
-            AssertMap(expectedMap, handler.GameMap);
-        }
         
         private string folder_path = "Assets/Tests/Edit/Map/TestCases/";
 
+        [Test]
+        public void CanRelease()
+        {
+            var blockHandler = new MapHandler(3, 3);
+            
+            var mapClip = MapLoader.LoadCanReleaseMap(folder_path + "CanReleaseTestCase.txt");
+            
+            foreach (var (initMap,  expected) in mapClip)
+            {
+                blockHandler.SetMap(initMap.grid);
+                blockHandler.GameMap.PrintMap();
+                for (int i = 0; i < 3; i++)
+                {
+                    Debug.Log($"add {i} column");
+                    bool canRelease = blockHandler.CanRelease(i);
+                    Assert.AreEqual(expected[i], canRelease);
+                }
+                
+            }
+        }
+        
         [Test]
         public void ShiftBlock()
         {
@@ -161,6 +131,8 @@ namespace Tests.Edit
                 Assert.AreEqual(expectHaveShift, haveShift);
             }
         }
+
+        #region CheckAndMerge
 
         [Test]
         public void CheckAndMerge_BasicCase()
@@ -201,9 +173,13 @@ namespace Tests.Edit
         }
 
         #endregion
+
+        #endregion
         
 
         #endregion
+        
+        
         #region Tools
 
         private void AssertMap(int[,] expected, Map map)

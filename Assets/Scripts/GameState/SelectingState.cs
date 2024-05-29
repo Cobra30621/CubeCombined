@@ -30,7 +30,7 @@ namespace GameState
         [Button("放置")]
         private void Release(int column)
         {
-            Debug.Log($"{CubeManager.CanRelease(column)}");
+            Debug.Log($"{CubeManager.CanReleaseAt(column)}");
             var canRelease = CubeManager.AddCube(column);
             if (canRelease)
             {

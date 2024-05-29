@@ -73,7 +73,7 @@ namespace Tests.Edit
             
             // Act
             inputSystem.IsRelease().Returns(true);
-            handler.CubeManager.CanRelease(1).ReturnsForAnyArgs(true);
+            handler.CubeManager.CanReleaseAt(1).ReturnsForAnyArgs(true);
             handler.Update();
             
             // Assert
@@ -92,7 +92,7 @@ namespace Tests.Edit
             
             // Act
             inputSystem.IsRelease().Returns(true);
-            handler.CubeManager.CanRelease(1).ReturnsForAnyArgs(false);
+            handler.CubeManager.CanReleaseAt(1).ReturnsForAnyArgs(false);
             handler.Update();
             
             // Assert

@@ -20,26 +20,23 @@ namespace Cube
         {
             gameMap = new Map(grid);
         }
-
-        public void PrintMergedMaps()
-        {
-            
-            foreach (var map in mergedMaps)
-            {
-                map.PrintMap();
-            }
-        }
-
-        public bool CanRelease(int column)
-        {
-            return gameMap.GetGrid()[gameMap.rows - 1, column] == 0;
-        }
         
-
-        public void AddCube(int column, int value, bool printMerge = false)
+        /// <summary>
+        /// 在某一列新增 Cube
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="value"></param>
+        /// <param name="printMerge"></param>
+        public bool AddCube(int column, int value, bool printMerge = false)
         {
-            gameMap.AddCube(column, value);
+            var canRelease = CanRelease(column);
+            if (!canRelease)
+            {
+                return false;
+            }
+            
             mergedMaps.Clear();
+            gameMap.AddCube(column, value);
             mergedMaps.Add(new Map(gameMap)); // 新增一個 Map 的複本到 mergedMaps
             CheckAndMergeBlocks(gameMap);
 
@@ -47,34 +44,44 @@ namespace Cube
             {
                 PrintMergedMaps();
             }
+
+            return true;
         }
 
-        public List<Map> GetMergedMaps()
+        
+        /// <summary>
+        /// 檢測該列是否可以方置方塊
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public bool CanRelease(int column)
         {
-            return mergedMaps;
+            return gameMap.GetGrid()[gameMap.rows - 1, column] == 0;
         }
+        
 
+        
         public void CheckAndMergeBlocks(Map map)
         {
+            bool shiftGridUp = false;
             bool merged = false;
             do
             {
-                var shiftGridUp = ShiftGridUp(map.GetGrid());
+                shiftGridUp = ShiftGridUp(map.GetGrid());
                 if (shiftGridUp)
                 {
                     mergedMaps.Add(new Map(map));
-                    
                 }
                 
                 merged = MergeMap(map);
-
+                
                 if (merged)
                 {
                     mergedMaps.Add(new Map(map));
                 }
                 
                 
-            } while (merged);
+            } while (merged || shiftGridUp);
         }
 
         public bool MergeMap(Map map)
@@ -150,8 +157,21 @@ namespace Cube
 
             return shifted;
         }
+        
+        public List<Map> GetMergedMaps()
+        {
+            return mergedMaps;
+        }
 
 
+        public void PrintMergedMaps()
+        {
+            
+            foreach (var map in mergedMaps)
+            {
+                map.PrintMap();
+            }
+        }
 
     }
 }

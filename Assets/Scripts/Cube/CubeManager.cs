@@ -31,7 +31,7 @@ namespace Cube
 
 
         [Button("放置方塊")]
-        public void AddCube(int column, int number)
+        private void AddCube(int column, int number)
         {
             currentCube = number;
             AddCube(column);
@@ -40,20 +40,28 @@ namespace Cube
         
         public override bool AddCube(int column)
         {
-            bool canRelease = CanRelease(column);
-            if (canRelease)
-            {
-                _mapHandler.AddCube(column, currentCube);
-            }
-
-            return canRelease;
+            return _mapHandler.AddCube(column, currentCube);;
         }
 
 
 
-        public override bool CanRelease(int column)
+        public override bool CanReleaseAt(int column)
         {
             return _mapHandler.CanRelease(column);
+        }
+
+        public override bool CanRelease()
+        {
+            for (int i = 0; i < MAX_COLUMN; i++)
+            {
+                bool canRelease = CanReleaseAt(i);
+                if (canRelease)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
 
