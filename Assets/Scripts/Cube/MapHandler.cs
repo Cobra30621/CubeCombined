@@ -58,6 +58,24 @@ namespace Cube
         {
             return gameMap.GetGrid()[gameMap.rows - 1, column] == 0;
         }
+
+        public int GetFirstZeroRowAt(int column)
+        {
+            var grid = gameMap.GetGrid();
+
+            int firstRow = -1;
+
+            for (int i = 0; i < gameMap.rows; i++)
+            {
+                if (grid[i, column] == 0)
+                {
+                    firstRow = i;
+                    break;
+                }
+            }
+
+            return firstRow;
+        }
         
 
         

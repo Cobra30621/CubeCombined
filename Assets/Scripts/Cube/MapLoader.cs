@@ -6,6 +6,29 @@ namespace Cube
 {
     public class MapLoader
     {
+        
+        public static List<(Map,int[])> LoadGetFirstZeroRowAtMap(string filePath)
+        {
+            var mapPairs = new List<(Map, int[])>();
+            string[] lines = File.ReadAllLines(filePath);
+
+            if (lines.Length % 4 != 0)
+            {
+                throw new Exception($"檔案格式錯誤：每四行應該對應一組 <Map, int[]> \n輸入為 {lines.Length}行");
+            }
+
+            for (int i = 0; i < lines.Length; i += 4)
+            {
+                Map map1 = ParseMap(lines[i + 0], lines[i + 1], lines[i + 2]);
+
+                var firstZeroRow = ParseIntArray(lines[i + 3]);
+                
+                mapPairs.Add((map1, firstZeroRow));
+            }
+
+            return mapPairs;
+            
+        }
         public static List<(Map, bool[])> LoadCanReleaseMap(string filePath)
         {
             var mapPairs = new List<(Map, bool[])>();
@@ -13,7 +36,7 @@ namespace Cube
 
             if (lines.Length % 4 != 0)
             {
-                throw new Exception($"檔案格式錯誤：每四行應該對應一組 <Map, bool>，並且每組 <Map, bool> 間應該有一個 int。\n輸入為 {lines.Length}行");
+                throw new Exception($"檔案格式錯誤：每四行應該對應一組 <Map, bool[]> \n輸入為 {lines.Length}行");
             }
 
             for (int i = 0; i < lines.Length; i += 4)
@@ -98,6 +121,23 @@ namespace Cube
             }
 
             return bools;
+        }
+        
+        public static int[] ParseIntArray(string row)
+        {
+            string[] values1 = row.Split(' ');
+            if (values1.Length != 3)
+            {
+                throw new Exception("檔案格式錯誤：每行應該包含三個數字");
+            } 
+
+            var intArray = new int[3];
+            for (int i = 0; i < 3; i++)
+            {
+                intArray[i] = int.Parse(values1[i]);
+            }
+
+            return intArray;
         }
 
         public static Map ParseMap(string row1, string row2, string row3)

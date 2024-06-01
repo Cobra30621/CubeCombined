@@ -74,6 +74,7 @@ namespace Tests.Edit
 
         #endregion
 
+       
 
         #region AddBlock
 
@@ -176,6 +177,31 @@ namespace Tests.Edit
 
         #endregion
         
+        
+        #region GetFirstZeroRowAt
+
+        [Test]
+        public void GetFirstZeroRowAt()
+        {
+            var blockHandler = new MapHandler(3, 3);
+            
+            var mapClip = MapLoader.LoadGetFirstZeroRowAtMap(folder_path + "GetFirstZeroRowAtTestCase.txt");
+            
+            foreach (var (map,  intArray) in mapClip)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    int excpected = intArray[i];
+                    blockHandler.SetMap(map.GetGrid());
+                    int first = blockHandler.GetFirstZeroRowAt(i);
+                    Assert.AreEqual(excpected, first);
+                }
+                
+            }
+        }
+        
+
+        #endregion
 
         #endregion
         
