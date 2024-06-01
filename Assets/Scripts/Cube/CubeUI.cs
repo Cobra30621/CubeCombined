@@ -14,6 +14,9 @@ namespace Cube
 
         [SerializeField] private Transform spawnTransform;
         
+
+        [SerializeField] private Cube _selectedCube;
+
         
         public void UpdateCubeDisplay(Map map)
         {
@@ -27,6 +30,24 @@ namespace Cube
                     cube.SetInfo($"{number}", _colors[number] );
                 }
             }
+        }
+
+        [Button]
+        public void ShowCubePreviewAt(int column, int row, int index)
+        {
+            _selectedCube = cubes[row][column];
+            _selectedCube.SetInfo($"{index}", _colors[index] );
+            _selectedCube.SetSelected(true);
+        }
+
+        public void ClosePreview()
+        {
+            if (_selectedCube != null)
+            {
+                _selectedCube.SetInfo($"", _colors[0] );
+                _selectedCube.SetSelected(false);
+            }
+            
         }
 
         public void InitCubes(int column, int row)

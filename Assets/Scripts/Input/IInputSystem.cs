@@ -10,6 +10,6 @@ namespace Input
 
         Vector2 GetInputPosition();
 
-        int GetRow();
+        int Column();
     }
 }

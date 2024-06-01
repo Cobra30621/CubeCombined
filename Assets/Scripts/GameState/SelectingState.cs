@@ -17,13 +17,15 @@ namespace GameState
 
         public override void Update()
         {
+            int column = InputSystem.Column();
+            Debug.Log($"Column {column}");
+         
             
-
             if (InputSystem.IsRelease())
             {
                 Debug.Log("IsRelease");
-                int row = InputSystem.GetRow();
-                Release(row);
+                CubeManager.ClosePreview();
+                Release(column);
             }
         }
 

@@ -12,19 +12,42 @@ namespace Cube
         public int MAX_COLUMN = 3;
         [SerializeField] private MapHandler _mapHandler;
 
-        [SerializeField] private int currentCube = 1;
+        [SerializeField] private ICubeUI _cubeUI;
         
-        public override void Init()
+        
+
+        [SerializeField] private int currentCube = 1;
+
+        public void SetCubeUI(ICubeUI cubeUI)
+        {
+            _cubeUI = cubeUI;
+        }
+
+        public virtual void Init()
         {
             _mapHandler = new MapHandler(MAX_ROW, MAX_COLUMN);
         }
         
-        public override int GetCurrentCube()
+        public virtual int GetCurrentCube()
         {
             return currentCube;
         }
+        
+        public virtual void ShowPreview(int column)
+        {
+            var firstZeroRowAt = _mapHandler.GetFirstZeroRowAt(column);
+            if (firstZeroRowAt != -1)
+            {
+                _cubeUI.ShowCubePreviewAt(column, firstZeroRowAt, currentCube);
+            }
+        }
 
-        public override Map GetCurrentMap()
+        public void ClosePreview()
+        {
+            _cubeUI.ClosePreview();
+        }
+
+        public virtual Map GetCurrentMap()
         {
             return _mapHandler.GameMap;
         }
@@ -38,19 +61,21 @@ namespace Cube
         }
 
         
-        public override bool AddCube(int column)
+        public virtual bool AddCube(int column)
         {
-            return _mapHandler.AddCube(column, currentCube);;
+            var addCube = _mapHandler.AddCube(column, currentCube);
+            _cubeUI.UpdateCubeDisplay(GetCurrentMap());
+            return addCube;
         }
 
 
 
-        public override bool CanReleaseAt(int column)
+        public virtual bool CanReleaseAt(int column)
         {
             return _mapHandler.CanRelease(column);
         }
 
-        public override bool CanRelease()
+        public virtual bool CanRelease()
         {
             for (int i = 0; i < MAX_COLUMN; i++)
             {
@@ -65,9 +90,11 @@ namespace Cube
         }
 
 
-        public override List<Map> GerMergeMap()
+        public virtual List<Map> GerMergeMap()
         {
             return _mapHandler.GetMergedMaps();
         }
+
+        public MapHandler MapHandler { get; }
     }
 }

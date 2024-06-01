@@ -23,5 +23,11 @@ namespace Cube
             text.text = info;
             image.color = color;
         }
+
+        public void SetSelected(bool selected)
+        {
+            var alpha = selected ? 0.5f : 1.0f;
+            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
+        }
     }
 }

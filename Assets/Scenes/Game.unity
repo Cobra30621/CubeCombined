@@ -3965,6 +3965,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _cubeManager
+      Entry: 6
+      Data: 
   _colors:
   - {r: 0, g: 0, b: 0, a: 1}
   - {r: 1, g: 0.3915094, b: 0.3915094, a: 1}
@@ -3978,6 +3981,7 @@ MonoBehaviour:
   - {r: 1, g: 0.3915094, b: 0.8026071, a: 1}
   cubePrefab: {fileID: 5097438624135425479, guid: 1377e229d9b934a929bb130aec0f6088, type: 3}
   spawnTransform: {fileID: 1766421528}
+  _selectedCube: {fileID: 0}
 --- !u!222 &1678302606
 CanvasRenderer:
   m_ObjectHideFlags: 0

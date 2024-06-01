@@ -3,34 +3,39 @@ using UnityEngine;
 
 namespace Cube
 {
-    public abstract class ICubeManager
+    public interface ICubeManager
     {
-        public abstract void Init();
-        
-        public abstract int GetCurrentCube();
 
-        public abstract Map GetCurrentMap();
+        void SetCubeUI(ICubeUI cubeUI);
         
+        void Init();
+        int GetCurrentCube();
+        Map GetCurrentMap();
+
         /// <summary>
         /// 放置方塊
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>
-        public abstract bool AddCube(int column);
-        
+        bool AddCube(int column);
+
         /// <summary>
         /// 檢查是否能在某處放置方塊
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>
-        public abstract bool CanReleaseAt(int column);
-        
+        bool CanReleaseAt(int column);
+
         /// <summary>
         /// 檢查現在的情況，是否還能放置方塊
         /// </summary>
         /// <returns></returns>
-        public abstract bool CanRelease();
+        bool CanRelease();
+
+        List<Map> GerMergeMap();
+        MapHandler MapHandler { get; }
+        void ShowPreview(int column);
         
-        public abstract List<Map> GerMergeMap();
+        void ClosePreview();
     }
 }
