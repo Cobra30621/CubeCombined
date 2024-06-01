@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace Cube
         
 
         [SerializeField] private Cube _selectedCube;
+
+        private bool isAnimateCompeled;
 
         
         public void UpdateCubeDisplay(Map map)
@@ -68,12 +71,27 @@ namespace Cube
         
         public void PlayAddCubeAnimation(List<Map> mergeMap)
         {
-           
+            StartCoroutine(AddCubeAnimation(mergeMap));
         }
+
+        
+        IEnumerator AddCubeAnimation(List<Map> mergeMap)
+        {
+            isAnimateCompeled = false;
+            foreach (var map in mergeMap)
+            {
+                UpdateCubeDisplay(map);
+                yield return new WaitForSeconds(0.3f);
+            }
+
+            isAnimateCompeled = true;
+        }
+        
+        
 
         public bool IsAnimationComplete()
         {
-            return true;
+            return isAnimateCompeled;
         }
     }
 }

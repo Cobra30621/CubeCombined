@@ -64,7 +64,7 @@ namespace Cube
         public virtual bool AddCube(int column)
         {
             var addCube = _mapHandler.AddCube(column, currentCube);
-            _cubeUI.UpdateCubeDisplay(GetCurrentMap());
+            // _cubeUI.UpdateCubeDisplay(GetCurrentMap());
             return addCube;
         }
 
