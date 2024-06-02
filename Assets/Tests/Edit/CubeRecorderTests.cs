@@ -54,14 +54,15 @@ namespace Tests.Edit
             {
                 _cubeRecorder.SetStartNumber(i);
 
-                var expectList = new List<int>();
-                for (int j = 0; j < _cubeRecorder.ShootingRange; j++)
-                {
-                    expectList.Add(i + j);
-                }
+                var number = _cubeRecorder.GetNumberInRange();
+
+                bool inRange = number >= _cubeRecorder.MinShootingNumber &&
+                               number < _cubeRecorder.MinShootingNumber + _cubeRecorder.ShootingRange;
                 
-                Assert.AreEqual(expectList, _cubeRecorder.GetShootingRange());
+                Assert.AreEqual(true, inRange);
             }
+            
+            
         }
 
         [Test]

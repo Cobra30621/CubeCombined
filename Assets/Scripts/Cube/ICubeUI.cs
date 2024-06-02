@@ -5,6 +5,9 @@ namespace Cube
     public interface ICubeUI
     {
         public void UpdateCubeDisplay(Map map);
+
+        void UpdateCurrentCube(int number);
+        
         public void ShowCubePreviewAt(int column, int row, int index);
         
         public void ClosePreview();

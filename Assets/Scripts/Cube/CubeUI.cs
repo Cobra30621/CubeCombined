@@ -15,11 +15,12 @@ namespace Cube
 
         [SerializeField] private Transform spawnTransform;
         
-
         [SerializeField] private Cube _selectedCube;
 
-        private bool isAnimateCompeled;
+        [Required]
+        [SerializeField] private Cube _currentCube;
 
+        private bool isAnimateCompeled;
         
         public void UpdateCubeDisplay(Map map)
         {
@@ -33,6 +34,11 @@ namespace Cube
                     cube.SetInfo($"{number}", _colors[number] );
                 }
             }
+        }
+
+        public void UpdateCurrentCube(int number)
+        {
+            _currentCube.SetInfo($"{number}", _colors[number] );
         }
 
         [Button]

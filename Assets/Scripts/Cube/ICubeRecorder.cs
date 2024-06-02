@@ -7,7 +7,8 @@ namespace Cube
     {
         void SetStartNumber(int number);
         
-        List<int> GetShootingRange();
+
+        int GetNumberInRange();
 
         void StartThisTurn();
         

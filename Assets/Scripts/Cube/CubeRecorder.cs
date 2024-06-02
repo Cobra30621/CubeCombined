@@ -4,6 +4,7 @@ using System.Linq;
 using Event;
 using UnityEngine;
 using EventType = Event.EventType;
+using Random = UnityEngine.Random;
 
 namespace Cube
 {
@@ -25,6 +26,7 @@ namespace Cube
         {
             ShootingRange = shootingRange;
             SetRecordThreshold = setRecordThreshold;
+            SetStartNumber(1);
         }
 
 
@@ -32,22 +34,18 @@ namespace Cube
         {
             if (number < 1)
             {
-                throw new Exception($"Start Number must be greater than 1, but {number}");
+                throw new Exception($"Start Number must be greater or equal than 1, but {number}");
             }
             
             MinShootingNumber = number;
             HighestCombine = number;
         }
 
-        public List<int> GetShootingRange()
-        {
-            var range = new List<int>();
-            for (int i = 0; i < ShootingRange; i++)
-            {
-                range.Add(MinShootingNumber + i);
-            }
 
-            return range;
+
+        public int GetNumberInRange()
+        {
+            return Random.Range(MinShootingNumber, MinShootingNumber + ShootingRange);
         }
 
         public void StartThisTurn()

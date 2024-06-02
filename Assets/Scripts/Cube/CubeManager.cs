@@ -26,7 +26,11 @@ namespace Cube
             _mapHandler = new MapHandler(MAX_ROW, MAX_COLUMN);
             _cubeRecorder = new CubeRecorder();
             _mapHandler.SetCubeRecorder(_cubeRecorder);
+
+            UpdateCurrentCube();
         }
+
+        
         
         public void SetCubeUI(ICubeUI cubeUI)
         {
@@ -36,6 +40,12 @@ namespace Cube
         public void SetEventUI(IEventUI eventUI)
         {
             _eventUI = eventUI;
+        }
+        
+        private void UpdateCurrentCube()
+        {
+            currentCube = _cubeRecorder.GetNumberInRange();
+            _cubeUI.UpdateCurrentCube(currentCube);
         }
 
         public void ShowCubeEvents()
@@ -83,6 +93,7 @@ namespace Cube
         public virtual bool AddCube(int column)
         {
             var addCube = _mapHandler.AddCube(column, currentCube);
+            UpdateCurrentCube();
             return addCube;
         }
 
