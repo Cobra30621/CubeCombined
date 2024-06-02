@@ -8,12 +8,19 @@ namespace Cube
         [SerializeField] private List<Map> mergedMaps;
         [SerializeField] private Map gameMap;
 
+        private ICubeRecorder _cubeRecorder;
+
         public Map GameMap => gameMap;
     
         public MapHandler(int numRows, int numCols)
         {
             mergedMaps = new List<Map>();
             gameMap = new Map(numRows, numCols);
+        }
+        
+        public void SetCubeRecorder(ICubeRecorder cubeRecorder)
+        {
+            _cubeRecorder = cubeRecorder;
         }
 
         public void SetMap(int[,] grid)
@@ -34,6 +41,8 @@ namespace Cube
             {
                 return false;
             }
+            
+            _cubeRecorder.StartThisTurn();
             
             mergedMaps.Clear();
             gameMap.AddCube(column, value);
@@ -124,30 +133,40 @@ namespace Cube
         private bool MergeSingleBlock(int[,] grid, int row, int col)
         {
             bool merged = false;
-
+            int mergeNumber = -1;
+            
             if (row > 0 && grid[row, col] == grid[row - 1, col])
             {
-                grid[row, col] += 1;
+                mergeNumber = grid[row, col] + 1;
+                grid[row, col] += mergeNumber;
                 grid[row - 1, col] = 0;
                 merged = true;
             }
             else if (row < grid.GetLength(0) - 1 && grid[row, col] == grid[row + 1, col])
             {
-                grid[row, col] += 1;
+                mergeNumber = grid[row, col] + 1;
+                grid[row, col] += mergeNumber;
                 grid[row + 1, col] = 0;
                 merged = true;
             }
             else if (col > 0 && grid[row, col] == grid[row, col - 1])
             {
-                grid[row, col] += 1;
+                mergeNumber = grid[row, col] + 1;
+                grid[row, col] += mergeNumber;
                 grid[row, col - 1] = 0;
                 merged = true;
             }
             else if (col < grid.GetLength(1) - 1 && grid[row, col] == grid[row, col + 1])
             {
-                grid[row, col] += 1;
+                mergeNumber = grid[row, col] + 1;
+                grid[row, col] += mergeNumber;
                 grid[row, col + 1] = 0;
                 merged = true;
+            }
+            
+            if (merged)
+            {
+                _cubeRecorder?.OnCombined(mergeNumber);
             }
 
             return merged;
