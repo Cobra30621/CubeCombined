@@ -15,11 +15,15 @@ public class UnityManager : SerializedMonoBehaviour
     [SerializeField] private ICubeUI _cubeUI;
     [Required]
     [SerializeField] private IEventUI _eventUI;
-        
+    [Required]
+    [SerializeField] private GameOverUI _gameOverUI;
+    
     [Button("開始遊戲")]
     public void Start()
     {
         _gameProgressHandler = new GameProgressHandler();
+        _gameProgressHandler.GameOverUI = _gameOverUI;
+        
         _cubeManager = new CubeManager();
         _cubeManager.SetCubeUI(_cubeUI);
         _cubeManager.SetEventUI(_eventUI);

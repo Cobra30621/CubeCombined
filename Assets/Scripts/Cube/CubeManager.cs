@@ -14,8 +14,8 @@ namespace Cube
         [SerializeField] private MapHandler _mapHandler;
         [SerializeField] private CubeRecorder _cubeRecorder;
 
-        [SerializeField] private ICubeUI _cubeUI;
-        [SerializeField] private IEventUI _eventUI;
+        private ICubeUI _cubeUI;
+        private IEventUI _eventUI;
         
 
         [SerializeField] private int currentCube = 1;

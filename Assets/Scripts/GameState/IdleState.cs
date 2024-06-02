@@ -8,6 +8,10 @@ namespace GameState
         public override StateType GetStateType() => StateType.Idle;
         public override void EnterState()
         {
+            if (!CubeManager.CanRelease())
+            {
+                _gameContext.GameOver();
+            }
         }
 
 

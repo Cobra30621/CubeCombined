@@ -32,10 +32,11 @@ namespace GameState
         [Button("放置")]
         private void Release(int column)
         {
-            Debug.Log($"{CubeManager.CanReleaseAt(column)}");
-            var canRelease = CubeManager.AddCube(column);
+            var canRelease = CubeManager.CanReleaseAt(column);
+            Debug.Log($"CanRelease {canRelease} {column}");
             if (canRelease)
             {
+                CubeManager.AddCube(column);
                 _gameContext.SetGameState(new ProgressingState());
             }
             else

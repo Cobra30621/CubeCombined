@@ -11,11 +11,17 @@ namespace GameState
         [SerializeField] private GameState _gameState;
 
         public int CurrentRow;
+        
+        public void GameOver()
+        {
+            GameOverUI.ShowPanel();
+        }
 
         public StateType CurrentStateType => _gameState.GetStateType();
         public ICubeManager CubeManager { get; set; }
         
         public ICubeUI CubeUI { get; set; }
+        public GameOverUI GameOverUI { get; set; }
 
         public void Init(ICubeManager cubeManager, ICubeUI cubeUI)
         {

@@ -57,6 +57,8 @@ namespace Cube
                 _selectedCube.SetSelected(false);
             }
             
+            _selectedCube = null;
+            
         }
 
         public void InitCubes(int column, int row)
