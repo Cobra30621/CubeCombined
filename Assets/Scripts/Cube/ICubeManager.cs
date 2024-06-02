@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Event;
 using UnityEngine;
 
 namespace Cube
@@ -37,5 +38,9 @@ namespace Cube
         void ShowPreview(int column);
         
         void ClosePreview();
+        void SetEventUI(IEventUI eventUI);
+        
+        void ShowCubeEvents();
+        
     }
 }

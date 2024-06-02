@@ -138,28 +138,28 @@ namespace Cube
             if (row > 0 && grid[row, col] == grid[row - 1, col])
             {
                 mergeNumber = grid[row, col] + 1;
-                grid[row, col] += mergeNumber;
+                grid[row, col] = mergeNumber;
                 grid[row - 1, col] = 0;
                 merged = true;
             }
             else if (row < grid.GetLength(0) - 1 && grid[row, col] == grid[row + 1, col])
             {
                 mergeNumber = grid[row, col] + 1;
-                grid[row, col] += mergeNumber;
+                grid[row, col] = mergeNumber;
                 grid[row + 1, col] = 0;
                 merged = true;
             }
             else if (col > 0 && grid[row, col] == grid[row, col - 1])
             {
                 mergeNumber = grid[row, col] + 1;
-                grid[row, col] += mergeNumber;
+                grid[row, col] = mergeNumber;
                 grid[row, col - 1] = 0;
                 merged = true;
             }
             else if (col < grid.GetLength(1) - 1 && grid[row, col] == grid[row, col + 1])
             {
                 mergeNumber = grid[row, col] + 1;
-                grid[row, col] += mergeNumber;
+                grid[row, col] = mergeNumber;
                 grid[row, col + 1] = 0;
                 merged = true;
             }

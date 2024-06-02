@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Event;
 
 namespace Cube
 {
@@ -12,7 +13,8 @@ namespace Cube
         
         void OnCombined(int number);
 
-        List<Record> GetThisTurnRecords();
+        List<CubeEvent> GetThisTurnEvent();
+
     }
 
     public class Record

@@ -1067,6 +1067,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 1678302604}
+    - {fileID: 2001884536}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -1357,6 +1358,15 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _cubeRecorder
+      Entry: 6
+      Data: 
+    - Name: _cubeUI
+      Entry: 6
+      Data: 
+    - Name: _eventUI
+      Entry: 6
+      Data: 
     - Name: currentCube
       Entry: 3
       Data: 1
@@ -1366,6 +1376,9 @@ MonoBehaviour:
     - Name: _cubeUI
       Entry: 10
       Data: 0
+    - Name: _eventUI
+      Entry: 10
+      Data: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2008,6 +2021,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1678302603}
+  - {fileID: 2001884533}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3965,9 +3979,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: _cubeManager
-      Entry: 6
-      Data: 
   _colors:
   - {r: 0, g: 0, b: 0, a: 1}
   - {r: 1, g: 0.3915094, b: 0.3915094, a: 1}
@@ -3979,6 +3990,9 @@ MonoBehaviour:
   - {r: 0.6340974, g: 0.31626022, b: 0.9716981, a: 1}
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 0.3915094, b: 0.8026071, a: 1}
+  - {r: 0.93405694, g: 1, b: 0.4669811, a: 0}
+  - {r: 0, g: 0.8867924, b: 0.6371353, a: 0}
+  - {r: 0.415544, g: 0.21444464, b: 0.5754717, a: 0}
   cubePrefab: {fileID: 5097438624135425479, guid: 1377e229d9b934a929bb130aec0f6088, type: 3}
   spawnTransform: {fileID: 1766421528}
   _selectedCube: {fileID: 0}
@@ -4467,6 +4481,104 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1837552545}
   m_CullTransparentMesh: 1
+--- !u!1 &2001884532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2001884533}
+  - component: {fileID: 2001884535}
+  - component: {fileID: 2001884534}
+  - component: {fileID: 2001884536}
+  m_Layer: 5
+  m_Name: EventUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2001884533
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001884532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 944941561}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2001884534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001884532}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2001884535
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001884532}
+  m_CullTransparentMesh: 1
+--- !u!114 &2001884536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001884532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d48b93e268449638cb5e294b4b4ddbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _isPlayingEvent: 0
 --- !u!1 &2031840022
 GameObject:
   m_ObjectHideFlags: 0

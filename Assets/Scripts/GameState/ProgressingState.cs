@@ -29,13 +29,11 @@ namespace GameState
 
         private void OnAnimationComplete()
         {
-            CheckEvent();
+            CubeManager.ShowCubeEvents();
+            
             _gameContext.SetGameState(new IdleState());
         }
 
-        private void CheckEvent()
-        {
-            Debug.Log("Check Event");
-        }
+        
     }
 }

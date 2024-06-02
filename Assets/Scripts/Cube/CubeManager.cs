@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Event;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -11,23 +12,39 @@ namespace Cube
         public int MAX_ROW = 6;
         public int MAX_COLUMN = 3;
         [SerializeField] private MapHandler _mapHandler;
+        [SerializeField] private CubeRecorder _cubeRecorder;
 
         [SerializeField] private ICubeUI _cubeUI;
-        
+        [SerializeField] private IEventUI _eventUI;
         
 
         [SerializeField] private int currentCube = 1;
 
+        
+        public virtual void Init()
+        {
+            _mapHandler = new MapHandler(MAX_ROW, MAX_COLUMN);
+            _cubeRecorder = new CubeRecorder();
+            _mapHandler.SetCubeRecorder(_cubeRecorder);
+        }
+        
         public void SetCubeUI(ICubeUI cubeUI)
         {
             _cubeUI = cubeUI;
         }
-
-        public virtual void Init()
-        {
-            _mapHandler = new MapHandler(MAX_ROW, MAX_COLUMN);
-        }
         
+        public void SetEventUI(IEventUI eventUI)
+        {
+            _eventUI = eventUI;
+        }
+
+        public void ShowCubeEvents()
+        {
+            var thisTurnEvent = _cubeRecorder.GetThisTurnEvent();
+            _eventUI.ShowEvent(thisTurnEvent);
+        }
+
+
         public virtual int GetCurrentCube()
         {
             return currentCube;
@@ -46,6 +63,8 @@ namespace Cube
         {
             _cubeUI.ClosePreview();
         }
+
+        
 
         public virtual Map GetCurrentMap()
         {
@@ -94,6 +113,9 @@ namespace Cube
             return _mapHandler.GetMergedMaps();
         }
 
+        
         public MapHandler MapHandler { get; }
+        
+
     }
 }

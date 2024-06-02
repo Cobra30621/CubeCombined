@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cube;
+using Event;
 using NUnit.Framework;
 
 namespace Tests.Edit
@@ -68,7 +69,7 @@ namespace Tests.Edit
         {
             _cubeRecorder.StartThisTurn();
             
-            Assert.AreEqual(0, _cubeRecorder.GetThisTurnRecords().Count);
+            Assert.AreEqual(0, _cubeRecorder.GetThisTurnEvent().Count);
         }
 
         [Test]
@@ -83,10 +84,10 @@ namespace Tests.Edit
             }
         }
 
-        [TestCase(8, 8, RecordType.CombineHistoryCubeAgain)]
-        [TestCase(8, 9, RecordType.CombineNewCube)]
-        [TestCase(20, 21, RecordType.CombineNewCube)]
-        public void OnCombined_Reach_AddRecord(int highestCombine, int thisTurnCombine, RecordType recordType)
+        [TestCase(8, 8, EventType.CombineHistoryCubeAgain)]
+        [TestCase(8, 9, EventType.CombineNewCube)]
+        [TestCase(20, 21, EventType.CombineNewCube)]
+        public void OnCombined_Reach_AddRecord(int highestCombine, int thisTurnCombine, EventType recordType)
         {
             _cubeRecorder = new CubeRecorder(setRecordThreshold: 8);
             
@@ -94,11 +95,11 @@ namespace Tests.Edit
             _cubeRecorder.StartThisTurn();
             _cubeRecorder.OnCombined(thisTurnCombine);
 
-            var records = _cubeRecorder.GetThisTurnRecords();
+            var records = _cubeRecorder.GetThisTurnEvent();
             
             
             Assert.AreEqual(1, records.Count);
-            Assert.AreEqual(recordType, records[0].RecordType);
+            Assert.AreEqual(recordType, records[0].EventType);
         }
 
         [Test]
@@ -116,23 +117,24 @@ namespace Tests.Edit
                 _cubeRecorder.OnCombined(combine);
             }
 
-            var records = _cubeRecorder.GetThisTurnRecords();
+            var records = _cubeRecorder.GetThisTurnEvent();
 
-            var expectedRecords = new List<Record>()
+            var expectedRecords = new List<CubeEvent>()
             {
-                new Record() { Number = 8, RecordType = RecordType.CombineNewCube },
-                new Record() { Number = 9, RecordType = RecordType.CombineNewCube },
-                new Record() { Number = 9, RecordType = RecordType.CombineHistoryCubeAgain },
-                new Record() { Number = 10, RecordType = RecordType.CombineNewCube },
-                new Record() { Number = 10, RecordType = RecordType.CombineHistoryCubeAgain },
-                new Record() { Number = 11, RecordType = RecordType.CombineNewCube },
+                new () { Number = 8, EventType = EventType.CombineNewCube , MinShootingNumber = 2},
+                new (){ Number = 9, EventType = EventType.CombineNewCube  , MinShootingNumber = 3},
+                new () { Number = 9, EventType = EventType.CombineHistoryCubeAgain  , MinShootingNumber = 3},
+                new () { Number = 10, EventType = EventType.CombineNewCube  , MinShootingNumber = 4},
+                new () { Number = 10, EventType = EventType.CombineHistoryCubeAgain  , MinShootingNumber = 4},
+                new () { Number = 11, EventType = EventType.CombineNewCube  , MinShootingNumber = 5},
             };
             
             Assert.AreEqual(expectedRecords.Count, records.Count);
             for (int i = 0; i < expectedRecords.Count(); i++)
             {
                 Assert.AreEqual(expectedRecords[i].Number, records[i].Number);
-                Assert.AreEqual(expectedRecords[i].RecordType, records[i].RecordType);
+                Assert.AreEqual(expectedRecords[i].EventType, records[i].EventType);
+                Assert.AreEqual(expectedRecords[i].MinShootingNumber, records[i].MinShootingNumber);
             }
         }
     }

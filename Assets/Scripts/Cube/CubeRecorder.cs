@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Event;
 using UnityEngine;
+using EventType = Event.EventType;
 
 namespace Cube
 {
@@ -14,7 +17,8 @@ namespace Cube
 
         public int HighestCombine { get; private set; }
 
-        private List<Record> _records;
+
+        private List<CubeEvent> _cubeEvents;
         
 
         public CubeRecorder(int shootingRange = 5, int setRecordThreshold = 8)
@@ -48,7 +52,7 @@ namespace Cube
 
         public void StartThisTurn()
         {
-            _records = new List<Record>();
+            _cubeEvents = new List<CubeEvent>();
         }
 
         public void OnCombined(int number)
@@ -57,30 +61,47 @@ namespace Cube
             {
                 if (number >= SetRecordThreshold)
                 {
-                    _records.Add(new Record()
-                    {
-                        RecordType = RecordType.CombineHistoryCubeAgain,
-                        Number = number
-                    });
+                    HandleCombineHistoryCube(number);
                 }
             }else if (number > HighestCombine)
             {
-                HighestCombine = number;
-
                 if (number >= SetRecordThreshold)
                 {
-                    _records.Add(new Record()
-                    {
-                        RecordType = RecordType.CombineNewCube,
-                        Number = number
-                    });
+                    HandleCombineNewCube(number);
                 }
+                
+                HighestCombine = number;
             }
         }
 
-        public List<Record> GetThisTurnRecords()
+        private void HandleCombineNewCube(int number)
         {
-            return _records;
+            MinShootingNumber = Math.Max(MinShootingNumber, number - SetRecordThreshold + 2);
+            
+            _cubeEvents.Add(
+            new CubeEvent()
+            {
+                EventType = EventType.CombineNewCube,
+                Number = number,
+                MinShootingNumber = MinShootingNumber
+            });
         }
+
+        private void HandleCombineHistoryCube(int number)
+        {
+            _cubeEvents.Add(
+                new CubeEvent()
+                {
+                    EventType = EventType.CombineHistoryCubeAgain,
+                    Number = number,
+                    MinShootingNumber = MinShootingNumber
+                });
+        }
+
+        public List<CubeEvent> GetThisTurnEvent()
+        {
+            return _cubeEvents;
+        }
+
     }
 }
