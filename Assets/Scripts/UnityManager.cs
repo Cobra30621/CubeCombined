@@ -14,7 +14,7 @@ public class UnityManager : SerializedMonoBehaviour
     [Required]
     [SerializeField] private ICubeUI _cubeUI;
     [Required]
-    [SerializeField] private IEventUI _eventUI;
+    [SerializeField] private IEventController _eventController;
     [Required]
     [SerializeField] private GameOverUI _gameOverUI;
     
@@ -26,7 +26,7 @@ public class UnityManager : SerializedMonoBehaviour
         
         _cubeManager = new CubeManager();
         _cubeManager.SetCubeUI(_cubeUI);
-        _cubeManager.SetEventUI(_eventUI);
+        _cubeManager.SetEventUI(_eventController);
         
         _gameProgressHandler.Init(_cubeManager, _cubeUI);
         _gameProgressHandler.StartGame();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Event;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using EventType = Event.EventType;
 using Random = UnityEngine.Random;
@@ -10,12 +11,13 @@ namespace Cube
 {
     public class CubeRecorder : ICubeRecorder
     {
+        [ShowInInspector]
         public int MinShootingNumber { get; private set; }
-        
+        [ShowInInspector]
         public int ShootingRange { get; private set; }
-        
+        [ShowInInspector]
         public int SetRecordThreshold { get; private set; }
-
+        [ShowInInspector]
         public int HighestCombine { get; private set; }
 
 

@@ -38,7 +38,7 @@ namespace Cube
         void ShowPreview(int column);
         
         void ClosePreview();
-        void SetEventUI(IEventUI eventUI);
+        void SetEventUI(IEventController eventController);
         
         void ShowCubeEvents();
         

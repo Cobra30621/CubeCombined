@@ -15,7 +15,7 @@ namespace Cube
         [SerializeField] private CubeRecorder _cubeRecorder;
 
         private ICubeUI _cubeUI;
-        private IEventUI _eventUI;
+        private IEventController _eventController;
         
 
         [SerializeField] private int currentCube = 1;
@@ -37,9 +37,9 @@ namespace Cube
             _cubeUI = cubeUI;
         }
         
-        public void SetEventUI(IEventUI eventUI)
+        public void SetEventUI(IEventController eventController)
         {
-            _eventUI = eventUI;
+            _eventController = eventController;
         }
         
         private void UpdateCurrentCube()
@@ -51,7 +51,7 @@ namespace Cube
         public void ShowCubeEvents()
         {
             var thisTurnEvent = _cubeRecorder.GetThisTurnEvent();
-            _eventUI.ShowEvent(thisTurnEvent);
+            _eventController.ShowEvent(thisTurnEvent);
         }
 
 

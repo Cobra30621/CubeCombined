@@ -9,6 +9,9 @@ namespace Cube
     {
         [SerializeField] private Color[] _colors;
 
+        [Required]
+        [SerializeField] private CubeData _cubeData;
+
         [SerializeField] private List<List<Cube>> cubes;
 
         [SerializeField] private Cube cubePrefab;
@@ -31,14 +34,14 @@ namespace Cube
                 {
                     var cube = cubes[i][j];
                     var number = grid[i, j];
-                    cube.SetInfo($"{number}", _colors[number] );
+                    _cubeData.SetCubeInfo(cube, number);
                 }
             }
         }
 
         public void UpdateCurrentCube(int number)
         {
-            _currentCube.SetInfo($"{number}", _colors[number] );
+            _cubeData.SetCubeInfo(_currentCube, number);
         }
 
         [Button]
