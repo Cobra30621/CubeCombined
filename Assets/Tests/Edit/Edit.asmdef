@@ -1,13 +1,15 @@
 {
-    "name": "Tests",
+    "name": "Edito",
     "rootNamespace": "",
     "references": [
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
-        "Scripts",
-        ""
+        "GUID:9053ef2c0b0744f31be735d8fe276709",
+        "GUID:27619889b8ba8c24980f49ee34dbb44a",
+        "GUID:0acc523941302664db1f4e527237feb3",
+        "GUID:ae90d85302b964e9db511f71d1ba7fd8"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

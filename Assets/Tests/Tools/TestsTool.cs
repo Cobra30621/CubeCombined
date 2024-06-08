@@ -20,13 +20,16 @@ namespace Tests.Edit
             return handler;
         }
 
-        private static ICubeController InitCubeController()
+        
+        
+        
+        public static ICubeController InitCubeController()
         {
             var cubeUI = Substitute.For<ICubeController>();
             return cubeUI;
         }
 
-        private static ICubeManager InitCubeManager()
+        public static ICubeManager InitCubeManager()
         {
             var cubeManager = Substitute.For<ICubeManager>();
             return cubeManager;

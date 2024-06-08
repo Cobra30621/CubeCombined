@@ -25,6 +25,8 @@ public class UnityManager : SerializedMonoBehaviour
         
         _cubeManager = new CubeManager();
         _cubeManager.SetCubeUI(_cubeController);
+        _cubeController.Init(_cubeManager);
+        _cubeController.InitCubes(_cubeManager.MaxRow, _cubeManager.MaxColumn);
         
         _gameProgressHandler.Init(_cubeManager, _cubeController, _eventController, _gameOverUI);
         _gameProgressHandler.StartGame();

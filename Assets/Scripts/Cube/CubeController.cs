@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace Cube
 {
-    public class CubeController : SerializedMonoBehaviour, ICubeController
+    public class CubeController : MonoBehaviour, ICubeController
     {
-        [SerializeField] private Color[] _colors;
-
         [Required]
         [SerializeField] private CubeData _cubeData;
 
+        public List<List<Cube>> Cubes => cubes;
         [SerializeField] private List<List<Cube>> cubes;
 
         [SerializeField] private Cube cubePrefab;
@@ -27,6 +26,42 @@ namespace Cube
 
         private ICubeManager _cubeManager;
         
+        public void Init(ICubeManager cubeManager)
+        {
+            _cubeManager = cubeManager;
+        }
+        
+        public void InitCubes(int row, int column)
+        {
+            DestroyAllCube();
+            
+            cubes = new List<List<Cube>>();
+            for (int i = 0; i < row; i++)
+            {
+                var columnCube = new List<Cube>();
+                for (int j = 0; j <column; j++)
+                {
+                    var cube = GameObject.Instantiate(cubePrefab, spawnTransform);
+                    cube.name = "Cube " + i + "_" + j;
+                    Debug.Log(cube.name);
+                    columnCube.Add(cube);
+                }
+                cubes.Add(columnCube);
+                
+            }
+        }
+
+        private void DestroyAllCube()
+        {
+            // 找到所有具有 Cube 組件的遊戲物件
+            Cube[] cubes = spawnTransform.gameObject.GetComponentsInChildren<Cube>();
+
+            // 遍歷所有找到的 Cube 組件並銷毀它們的遊戲物件
+            foreach (Cube cube in cubes)
+            {
+                Destroy(cube.gameObject);
+            }
+        }
         
         public void UpdateCubeDisplay(Map map)
         {
@@ -41,12 +76,6 @@ namespace Cube
                 }
             }
         }
-
-        public void Init(ICubeManager cubeManager)
-        {
-            _cubeManager = cubeManager;
-        }
-        
 
         public void UpdateCurrentCube(int number)
         {
@@ -64,7 +93,7 @@ namespace Cube
             
             var index = _cubeManager.CurrentCube;
             _selectedCube = cubes[row][column];
-            _selectedCube.SetInfo($"{index}", _colors[index] );
+            _cubeData.SetCubeInfo(_selectedCube, index);
             _selectedCube.SetSelected(true);
         }
 
@@ -72,7 +101,7 @@ namespace Cube
         {
             if (_selectedCube != null)
             {
-                _selectedCube.SetInfo($"", _colors[0] );
+                _cubeData.SetCubeInfo(_selectedCube, 0);
                 _selectedCube.SetSelected(false);
             }
             
@@ -80,21 +109,7 @@ namespace Cube
             
         }
 
-        public void InitCubes(int column, int row)
-        {
-            cubes = new List<List<Cube>>();
-            for (int i = 0; i < row; i++)
-            {
-                var columnCube = new List<Cube>();
-                for (int j = 0; j <column; j++)
-                {
-                    var cube = GameObject.Instantiate(cubePrefab, spawnTransform);
-                    columnCube.Add(cube);
-                }
-                cubes.Add(columnCube);
-                
-            }
-        }
+        
         
         public void PlayAddCubeAnimation(List<Map> mergeMap)
         {

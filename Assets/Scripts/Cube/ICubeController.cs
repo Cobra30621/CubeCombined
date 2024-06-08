@@ -5,7 +5,7 @@ namespace Cube
     public interface ICubeController
     {
         void Init(ICubeManager cubeManager);
-
+        void InitCubes(int row, int column);
         
         void UpdateCurrentCube(int number);
         

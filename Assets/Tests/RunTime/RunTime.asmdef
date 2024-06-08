@@ -1,14 +1,14 @@
 {
-    "name": "Edito",
+    "name": "Tests",
     "rootNamespace": "",
     "references": [
-        "GUID:9053ef2c0b0744f31be735d8fe276709",
-        "GUID:27619889b8ba8c24980f49ee34dbb44a",
-        "GUID:0acc523941302664db1f4e527237feb3"
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Scripts",
+        "TestTools",
+        "Sirenix.OdinInspector.Modules.UnityMathematics"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

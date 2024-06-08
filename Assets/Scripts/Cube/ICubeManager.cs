@@ -6,6 +6,15 @@ namespace Cube
 {
     public interface ICubeManager
     {
+        /// <summary>
+        /// The maximum number of rows in the game.
+        /// </summary>
+        public int MaxRow { get; }
+        /// <summary>
+        /// The maximum number of columns in the game.
+        /// </summary>
+        public int MaxColumn { get; }
+        
         List<Map> MergeMap { get; }
 
         int CurrentCube{get;}

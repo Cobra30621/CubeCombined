@@ -1,7 +1,7 @@
 using Input;
 using NUnit.Framework;
 
-namespace Tests.Editor
+namespace Tests.Edit
 {
     public class InputSettingTests
     {
