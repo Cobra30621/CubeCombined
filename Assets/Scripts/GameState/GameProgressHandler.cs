@@ -1,4 +1,5 @@
 using Cube;
+using Event;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -10,29 +11,26 @@ namespace GameState
     {
         [SerializeField] private GameState _gameState;
 
-        public int CurrentRow;
-        
-        public void GameOver()
-        {
-            GameOverUI.ShowPanel();
-        }
-
         public StateType CurrentStateType => _gameState.GetStateType();
         public ICubeManager CubeManager { get; set; }
+        public ICubeController CubeController { get; set; }
+        public IEventController EventController { get; set; }
+        public IGameOverController GameOverController { get; set; }
         
-        public ICubeUI CubeUI { get; set; }
-        public GameOverUI GameOverUI { get; set; }
 
-        public void Init(ICubeManager cubeManager, ICubeUI cubeUI)
+        public void Init(ICubeManager cubeManager, ICubeController cubeController, 
+            IEventController eventController, IGameOverController gameOverController)
         {
             CubeManager = cubeManager;
-            CubeUI = cubeUI;
+            CubeController = cubeController;
+            EventController = eventController;
+            GameOverController = gameOverController;
         }
         
 
         public void StartGame()
         {    
-            CubeManager.Init();
+            CubeManager.StartGame();
             SetGameState(new IdleState());
         }
 
@@ -49,6 +47,11 @@ namespace GameState
         public void Update()
         {
             _gameState.Update();
+        }
+        
+        public void GameOver()
+        {
+            GameOverController.GameOver();
         }
     }
 }

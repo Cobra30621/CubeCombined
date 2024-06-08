@@ -12,7 +12,7 @@ public class UnityManager : SerializedMonoBehaviour
     [SerializeField] private  ICubeManager _cubeManager;
 
     [Required]
-    [SerializeField] private ICubeUI _cubeUI;
+    [SerializeField] private ICubeController _cubeController;
     [Required]
     [SerializeField] private IEventController _eventController;
     [Required]
@@ -22,13 +22,11 @@ public class UnityManager : SerializedMonoBehaviour
     public void Start()
     {
         _gameProgressHandler = new GameProgressHandler();
-        _gameProgressHandler.GameOverUI = _gameOverUI;
         
         _cubeManager = new CubeManager();
-        _cubeManager.SetCubeUI(_cubeUI);
-        _cubeManager.SetEventUI(_eventController);
+        _cubeManager.SetCubeUI(_cubeController);
         
-        _gameProgressHandler.Init(_cubeManager, _cubeUI);
+        _gameProgressHandler.Init(_cubeManager, _cubeController, _eventController, _gameOverUI);
         _gameProgressHandler.StartGame();
     }
 

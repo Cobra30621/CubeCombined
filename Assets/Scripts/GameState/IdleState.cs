@@ -21,7 +21,7 @@ namespace GameState
             {
                 Debug.Log("Is Click");
                 int column = InputSetting.InputSystem.Column();
-                CubeManager.ShowPreview(column);
+                CubeController.ShowPreviewAt(column);
                 
                 _gameContext.SetGameState(new SelectingState());
             }   

@@ -9,19 +9,18 @@ namespace GameState
     {
         public override StateType GetStateType() => StateType.Progressing;
 
-        private ICubeUI _cubeUI => _gameContext.CubeUI;
         
         public override void EnterState()
         {
-            var mergeMap = CubeManager.GerMergeMap();
-            _cubeUI.PlayAddCubeAnimation(mergeMap);
+            var mergeMap = CubeManager.MergeMap;
+            CubeController.PlayAddCubeAnimation(mergeMap);
             
         }
 
 
         public override void Update()
         {
-            if (_cubeUI.IsAnimationComplete())
+            if (CubeController.IsAnimationComplete())
             {
                 OnAnimationComplete();
             }
@@ -29,7 +28,8 @@ namespace GameState
 
         private void OnAnimationComplete()
         {
-            CubeManager.ShowCubeEvents();
+            var cubeEvents = CubeManager.GetCubeEvents();
+            EventController.ShowEvent(cubeEvents);
             
             _gameContext.SetGameState(new IdleState());
         }

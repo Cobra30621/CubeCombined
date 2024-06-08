@@ -7,7 +7,6 @@ namespace Cube
     {
         void SetStartNumber(int number);
         
-
         int GetNumberInRange();
 
         void StartThisTurn();

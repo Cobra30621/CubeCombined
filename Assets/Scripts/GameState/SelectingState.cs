@@ -24,7 +24,7 @@ namespace GameState
             if (InputSystem.IsRelease())
             {
                 Debug.Log("IsRelease");
-                CubeManager.ClosePreview();
+                CubeController.ClosePreview();
                 Release(column);
             }
         }

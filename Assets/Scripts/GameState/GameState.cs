@@ -1,4 +1,5 @@
 using Cube;
+using Event;
 
 namespace GameState
 {
@@ -13,6 +14,8 @@ namespace GameState
     {
         protected GameContext _gameContext;
         protected ICubeManager CubeManager => _gameContext.CubeManager;
+        protected ICubeController CubeController => _gameContext.CubeController;
+        protected IEventController EventController => _gameContext.EventController;
         
         public void Init(GameContext context)
         {

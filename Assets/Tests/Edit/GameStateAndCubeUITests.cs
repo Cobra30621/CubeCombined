@@ -20,7 +20,7 @@ namespace Tests.Edit
             handler.Update();
             
             // Assert
-            // Assert.IsTrue(handler.CubeUI.IsShowSelecting());
+            // Assert.IsTrue(handler.CubeController.IsShowSelecting());
         }
         
 

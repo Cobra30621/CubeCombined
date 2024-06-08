@@ -6,12 +6,14 @@ namespace Cube
 {
     public interface ICubeManager
     {
+        List<Map> MergeMap { get; }
 
-        void SetCubeUI(ICubeUI cubeUI);
+        int CurrentCube{get;}
+
         
-        void Init();
-        int GetCurrentCube();
-        Map GetCurrentMap();
+        void SetCubeUI(ICubeController cubeController);
+        
+        void StartGame();
 
         /// <summary>
         /// 放置方塊
@@ -32,15 +34,9 @@ namespace Cube
         /// </summary>
         /// <returns></returns>
         bool CanRelease();
+        
+        List<CubeEvent> GetCubeEvents();
 
-        List<Map> GerMergeMap();
-        MapHandler MapHandler { get; }
-        void ShowPreview(int column);
-        
-        void ClosePreview();
-        void SetEventUI(IEventController eventController);
-        
-        void ShowCubeEvents();
-        
+        int GetFirstZeroRowAt(int column);
     }
 }

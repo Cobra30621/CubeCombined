@@ -1,4 +1,5 @@
 using Cube;
+using Event;
 
 namespace GameState
 {
@@ -10,9 +11,10 @@ namespace GameState
         
         StateType CurrentStateType { get; }
         ICubeManager CubeManager { get; set; }
-        ICubeUI CubeUI { get; }
+        ICubeController CubeController { get; set; }
+        IEventController EventController { get; set; }
         
-        GameOverUI GameOverUI { get; set; }
+        IGameOverController GameOverController { get; set; }
 
     }
 }

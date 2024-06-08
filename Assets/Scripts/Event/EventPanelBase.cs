@@ -5,12 +5,12 @@ namespace Event
 {
     public abstract class EventPanelBase : MonoBehaviour
     {
-        protected EventController _controller;
+        protected IEventController _controller;
         
         [Required]
         [SerializeField] protected GameObject mainPanel;
         
-        public void Init(EventController controller)
+        public void Init(IEventController controller)
         {
             _controller = controller;
         }

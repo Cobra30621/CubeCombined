@@ -3,12 +3,13 @@ using UnityEngine;
 
 namespace GameState
 {
-    public class GameOverUI : MonoBehaviour
+    public class GameOverUI : MonoBehaviour, IGameOverController
     {
         [Required]
         [SerializeField] private GameObject mainPanel;
+        
 
-        public void ShowPanel()
+        public void GameOver()
         {
             mainPanel.SetActive(true);
         }

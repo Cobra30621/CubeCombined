@@ -129,7 +129,7 @@ namespace Tests.Edit
             handler.SetGameState(new ProgressingState());
             
             // Update
-            handler.CubeUI.IsAnimationComplete().Returns(false);
+            handler.CubeController.IsAnimationComplete().Returns(false);
             
             handler.Update();
             
@@ -145,7 +145,7 @@ namespace Tests.Edit
             handler.SetGameState(new ProgressingState());
             
             // Update
-            handler.CubeUI.IsAnimationComplete().Returns(true);
+            handler.CubeController.IsAnimationComplete().Returns(true);
             
             handler.Update();
             

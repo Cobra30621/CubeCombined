@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Cube
 {
-    public class CubeUI : SerializedMonoBehaviour, ICubeUI
+    public class CubeController : SerializedMonoBehaviour, ICubeController
     {
         [SerializeField] private Color[] _colors;
 
@@ -24,6 +24,9 @@ namespace Cube
         [SerializeField] private Cube _currentCube;
 
         private bool isAnimateCompeled;
+
+        private ICubeManager _cubeManager;
+        
         
         public void UpdateCubeDisplay(Map map)
         {
@@ -39,14 +42,27 @@ namespace Cube
             }
         }
 
+        public void Init(ICubeManager cubeManager)
+        {
+            _cubeManager = cubeManager;
+        }
+        
+
         public void UpdateCurrentCube(int number)
         {
             _cubeData.SetCubeInfo(_currentCube, number);
         }
 
         [Button]
-        public void ShowCubePreviewAt(int column, int row, int index)
+        public void ShowPreviewAt(int column)
         {
+            var row = _cubeManager.GetFirstZeroRowAt(column);
+            if (row == -1)
+            {
+                return;
+            }
+            
+            var index = _cubeManager.CurrentCube;
             _selectedCube = cubes[row][column];
             _selectedCube.SetInfo($"{index}", _colors[index] );
             _selectedCube.SetSelected(true);

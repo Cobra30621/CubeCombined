@@ -11,17 +11,22 @@ namespace Cube
     {
         public int MAX_ROW = 6;
         public int MAX_COLUMN = 3;
+        
         [SerializeField] private MapHandler _mapHandler;
-        [SerializeField] private CubeRecorder _cubeRecorder;
+        [SerializeField] private ICubeRecorder _cubeRecorder;
+        private ICubeController _cubeController;
 
-        private ICubeUI _cubeUI;
-        private IEventController _eventController;
-        
-
+        public int CurrentCube => currentCube;
         [SerializeField] private int currentCube = 1;
+        public List<Map> MergeMap => _mapHandler.GetMergedMaps();
 
+        public void SetCubeUI(ICubeController cubeController)
+        {
+            _cubeController = cubeController;
+        }
         
-        public virtual void Init()
+        
+        public virtual void StartGame()
         {
             _mapHandler = new MapHandler(MAX_ROW, MAX_COLUMN);
             _cubeRecorder = new CubeRecorder();
@@ -32,63 +37,11 @@ namespace Cube
 
         
         
-        public void SetCubeUI(ICubeUI cubeUI)
+        public List<CubeEvent> GetCubeEvents()
         {
-            _cubeUI = cubeUI;
+            return _cubeRecorder.GetThisTurnEvent();
         }
         
-        public void SetEventUI(IEventController eventController)
-        {
-            _eventController = eventController;
-        }
-        
-        private void UpdateCurrentCube()
-        {
-            currentCube = _cubeRecorder.GetNumberInRange();
-            _cubeUI.UpdateCurrentCube(currentCube);
-        }
-
-        public void ShowCubeEvents()
-        {
-            var thisTurnEvent = _cubeRecorder.GetThisTurnEvent();
-            _eventController.ShowEvent(thisTurnEvent);
-        }
-
-
-        public virtual int GetCurrentCube()
-        {
-            return currentCube;
-        }
-        
-        public virtual void ShowPreview(int column)
-        {
-            var firstZeroRowAt = _mapHandler.GetFirstZeroRowAt(column);
-            if (firstZeroRowAt != -1)
-            {
-                _cubeUI.ShowCubePreviewAt(column, firstZeroRowAt, currentCube);
-            }
-        }
-
-        public void ClosePreview()
-        {
-            _cubeUI.ClosePreview();
-        }
-
-        
-
-        public virtual Map GetCurrentMap()
-        {
-            return _mapHandler.GameMap;
-        }
-
-
-        [Button("放置方塊")]
-        private void AddCube(int column, int number)
-        {
-            currentCube = number;
-            AddCube(column);
-        }
-
         
         public virtual bool AddCube(int column)
         {
@@ -117,16 +70,20 @@ namespace Cube
 
             return false;
         }
-
-
-        public virtual List<Map> GerMergeMap()
+        
+        public int GetFirstZeroRowAt(int column)
         {
-            return _mapHandler.GetMergedMaps();
+            return _mapHandler.GetFirstZeroRowAt(column);
         }
 
         
-        public MapHandler MapHandler { get; }
-        
+        private void UpdateCurrentCube()
+        {
+            currentCube = _cubeRecorder.GetNumberInRange();
+            _cubeController.UpdateCurrentCube(currentCube);
+        }
+
+
 
     }
 }
